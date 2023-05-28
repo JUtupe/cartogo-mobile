@@ -11,6 +11,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^17.5.0",
+    "@react-native-google-signin/google-signin": "^10.0.1",
+    "axios": "^1.4.0",
     "react": "18.2.0",
     "react-native": "0.71.8"
   },
@@ -30,6 +33,7 @@
     "lint-staged": "^13.2.2",
     "metro-react-native-babel-preset": "0.73.9",
     "prettier": "^2.4.1",
+    "react-native-dotenv": "^3.4.8",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
   },
