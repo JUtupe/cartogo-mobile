@@ -1,12 +1,15 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import {LoginScreen} from './src/screens/LoginScreeen';
+import {NavigationContainer} from '@react-navigation/native';
+import {RootNavigation} from './src/navigation/RootNavigation';
+import {AuthProvider} from './src/context/Auth.context';
 
 function App(): React.ReactNode {
   return (
-    <SafeAreaView>
-      <LoginScreen />
-    </SafeAreaView>
+    <NavigationContainer>
+      <AuthProvider>
+        <RootNavigation />
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
 
