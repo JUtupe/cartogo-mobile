@@ -1,6 +1,6 @@
 # Wypożyczajka
 
-*## Usefu*l commands
+## Useful commands
 
 ```bash
 adb reverse tcp:3000 tcp:3000
