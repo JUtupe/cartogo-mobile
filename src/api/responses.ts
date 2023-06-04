@@ -5,7 +5,18 @@ export interface UserResponse {
   avatar?: string;
 }
 
+export interface RentalInvitationResponse {
+  id: string;
+  rentalId: string;
+  rentalName: string;
+  email: string;
+}
+
 export interface AuthResponse {
-  user: UserResponse;
   accessToken: string;
+  user: UserResponse;
+  properties: {
+    isMemberOfAnyRental: boolean;
+    pendingInvitation?: RentalInvitationResponse;
+  };
 }
