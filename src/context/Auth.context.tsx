@@ -3,16 +3,22 @@ import {ANDROID_WEB_CLIENT_ID, IOS_WEB_CLIENT_ID} from '@env';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Platform} from 'react-native';
 import {loginWithGoogle} from '../api/auth.api';
-import {AuthResponse, UserResponse} from '../api/responses';
+import {
+  AuthResponse,
+  RentalInvitationResponse,
+  UserResponse,
+} from '../api/responses';
 
 interface AuthContextProps {
   user: UserResponse | null;
-  login: () => Promise<void>;
+  pendingRentalInvitation: RentalInvitationResponse | null;
+  login: () => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
+  pendingRentalInvitation: null,
   login: () => Promise.reject(),
   logout: () => Promise.reject(),
 });
@@ -23,6 +29,8 @@ interface Props {
 
 export const AuthProvider = ({children}: Props) => {
   const [user, setUser] = useState<UserResponse | null>(null);
+  const [pendingRentalInvitation, setPendingRentalInvitation] =
+    useState<RentalInvitationResponse | null>(null);
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -43,12 +51,16 @@ export const AuthProvider = ({children}: Props) => {
         return Promise.reject('No idToken');
       }
 
-      const tokenResponse: AuthResponse = await loginWithGoogle(
+      const authResponse: AuthResponse = await loginWithGoogle(
         userInfo.idToken,
       );
-      setUser(tokenResponse.user);
 
-      return Promise.resolve();
+      setUser(authResponse.user);
+      setPendingRentalInvitation(
+        authResponse.properties.pendingInvitation ?? null,
+      );
+
+      return Promise.resolve(authResponse);
     } catch (error: any) {
       return Promise.reject(error.message);
     }
@@ -62,6 +74,7 @@ export const AuthProvider = ({children}: Props) => {
     <AuthContext.Provider
       value={{
         user,
+        pendingRentalInvitation,
         login,
         logout,
       }}>

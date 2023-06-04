@@ -4,6 +4,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAuth} from '../context/Auth.hooks';
 import {RootStackParamList} from './screens';
+import {NotMemberScreen} from '../screens/NotMemberScreen';
+import {CreateRentalScreen} from '../screens/CreateRentalScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,6 +17,12 @@ export const RootNavigation = () => {
   const loggedInRoutes = (
     <>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="NotMember"
+        component={NotMemberScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="CreateRental" component={CreateRentalScreen} />
     </>
   );
   const loggedOutRoutes = (

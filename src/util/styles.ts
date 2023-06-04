@@ -51,3 +51,14 @@ export const TextStyles = StyleSheet.create({
     color: Colors.Text,
   },
 });
+
+export const CommonStyles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.Light0,
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+  },
+});
