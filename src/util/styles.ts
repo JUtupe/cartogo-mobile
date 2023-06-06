@@ -61,4 +61,20 @@ export const CommonStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 24,
   },
+  cutoutContainer: {
+    backgroundColor: Colors.Dark1,
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cutoutContent: {
+    backgroundColor: Colors.Light0,
+    display: 'flex',
+    width: '100%',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+  },
 });

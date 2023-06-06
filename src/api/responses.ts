@@ -5,6 +5,24 @@ export interface UserResponse {
   avatar?: string;
 }
 
+export interface RentalResponse {
+  id: string;
+  name: string;
+  nip: string;
+  address: {
+    postalCode: string;
+    street: string;
+    city: string;
+  };
+  owner: {
+    firstName: string;
+    lastName: string;
+  };
+  ownerId: string;
+  userIds: string[];
+  invitations: RentalInvitationResponse[];
+}
+
 export interface RentalInvitationResponse {
   id: string;
   rentalId: string;

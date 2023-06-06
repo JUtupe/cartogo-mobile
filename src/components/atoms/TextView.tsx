@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleProp, Text, TextStyle} from 'react-native';
 import {TextStyles} from '../../util/styles';
 
-interface TextProps {
+export interface TextProps {
   children: React.ReactNode;
   variant?: 'bodyS' | 'bodyM' | 'bodyL' | 'headingS' | 'headingM' | 'headingL';
   bold?: boolean;

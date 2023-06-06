@@ -3,13 +3,14 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAuth} from '../context/Auth.hooks';
 import {StyleSheet, View} from 'react-native';
-import NotAMember from '../assets/icons/not-a-member.svg';
+import NotMemberIcon from '../assets/icons/not-a-member.svg';
 import React from 'react';
 import {Colors} from '../util/colors';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
 import {Button} from '../components/atoms/Button';
 import {acceptInvitation, deleteInvitation} from '../api/rental.api';
+import LoginWave from '../assets/images/login-wave.svg';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NotMember'>;
 
@@ -36,6 +37,10 @@ export const NotMemberScreen = ({navigation}: Props) => {
 
   return (
     <SafeAreaView style={CommonStyles.container}>
+      <View style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
+        <LoginWave width={'100%'} preserveAspectRatio="xMinYMin slice" />
+      </View>
+
       <View style={styles.top}>
         <TextView variant={'headingL'} bold>
           Witaj, {user?.name}!
@@ -43,7 +48,7 @@ export const NotMemberScreen = ({navigation}: Props) => {
         <TextView>Nie jesteś członkiem żadnej wypożyczalni</TextView>
       </View>
 
-      <NotAMember />
+      <NotMemberIcon />
 
       <View style={styles.buttonsSection}>
         {pendingRentalInvitation && (

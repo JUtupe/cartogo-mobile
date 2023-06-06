@@ -3,7 +3,7 @@ import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAuth} from '../context/Auth.hooks';
 import {RootStackParamList} from '../navigation/screens';
-import Logo from '../assets/icons/logo.svg';
+import LogoIcon from '../assets/icons/logo.svg';
 import LoginWave from '../assets/images/login-wave.svg';
 import LoginTire from '../assets/images/login-tire.svg';
 import {Colors} from '../util/colors';
@@ -43,7 +43,7 @@ export const LoginScreen = ({navigation}: Props) => {
       </View>
 
       <View style={styles.branding}>
-        <Logo width={256} height={256} />
+        <LogoIcon width={256} height={256} />
 
         <TextView variant={'headingL'} bold>
           Wypożyczajka
