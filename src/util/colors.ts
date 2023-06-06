@@ -10,6 +10,7 @@ export const Colors = {
   Dark1: '#1E2A3A',
   Info: '#F19D39',
   Text: '#282121',
+  Gray: '#858585', //todo add to figma
   Error0: '#FE5F00',
   Error1: '#923600',
   White: '#FFFFFF',

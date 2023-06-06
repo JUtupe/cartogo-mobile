@@ -101,8 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Dark1,
   },
   item: {
-    display: 'flex',
-    flexGrow: 1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 8,

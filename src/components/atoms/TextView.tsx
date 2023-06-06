@@ -8,6 +8,8 @@ export interface TextProps {
   bold?: boolean;
   style?: StyleProp<TextStyle>;
   onPress?: () => void;
+  numberOfLines?: number;
+  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
 }
 
 export const TextView: React.FC<TextProps> = ({
@@ -16,11 +18,15 @@ export const TextView: React.FC<TextProps> = ({
   bold = false,
   style,
   onPress,
+  numberOfLines,
+  ellipsizeMode,
 }) => {
   return (
     <Text
       style={[TextStyles[variant], bold && {fontWeight: 'bold'}, style]}
-      onPress={onPress}>
+      onPress={onPress}
+      numberOfLines={numberOfLines}
+      ellipsizeMode={ellipsizeMode}>
       {children}
     </Text>
   );

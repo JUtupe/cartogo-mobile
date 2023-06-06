@@ -56,24 +56,23 @@ export const CreateRentalScreen = ({navigation}: Props) => {
           label={'Nazwa wypożyczalni'}
         />
 
-        <View style={{flex: 1, gap: 16, flexDirection: 'row'}}>
+        <View style={{gap: 16, flexDirection: 'row'}}>
           <ControlledInput
             name={'address.postalCode'}
             control={control}
+            placeholder={'00-000'}
             label={'Kod pocztowy'}
-            style={{flexGrow: 0}}
           />
           <ControlledInput
             name={'address.city'}
             control={control}
             label={'Miejscowość'}
-            style={{flexGrow: 1}}
           />
           <ControlledInput
             name={'address.street'}
             control={control}
             label={'Ulica'}
-            style={{flexGrow: 4}}
+            style={{flexGrow: 2}}
           />
         </View>
 
@@ -88,13 +87,11 @@ export const CreateRentalScreen = ({navigation}: Props) => {
             name={'owner.firstName'}
             control={control}
             label={'Imię właściciela'}
-            style={{flexGrow: 1}}
           />
           <ControlledInput
             name={'owner.lastName'}
             control={control}
             label={'Nazwisko właściciela'}
-            style={{flexGrow: 1}}
           />
         </View>
 

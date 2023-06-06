@@ -7,15 +7,32 @@ import DropShadow from 'react-native-drop-shadow';
 
 export interface InputProps {
   label?: string;
+  placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
   style?: StyleProp<ViewStyle>;
+  greedy?: boolean;
 }
 
-export const Input = ({label, value, onChangeText, style}: InputProps) => {
+export const Input = ({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  style,
+  greedy = true,
+}: InputProps) => {
   return (
-    <View style={[styles.container, style]}>
-      {label && <TextView variant={'bodyM'}>{label}</TextView>}
+    <View style={[styles.container, greedy && {alignSelf: 'stretch'}, style]}>
+      {label && (
+        <TextView
+          variant={'bodyM'}
+          style={styles.label}
+          numberOfLines={1}
+          ellipsizeMode={'tail'}>
+          {label}
+        </TextView>
+      )}
       <DropShadow
         style={{
           shadowColor: Colors.Dark1,
@@ -30,6 +47,8 @@ export const Input = ({label, value, onChangeText, style}: InputProps) => {
           style={[TextStyles.bodyL, styles.input]}
           value={value}
           onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor={Colors.Gray}
         />
       </DropShadow>
     </View>
@@ -38,9 +57,11 @@ export const Input = ({label, value, onChangeText, style}: InputProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    alignSelf: 'stretch',
+    flex: 1,
+    flexShrink: 0,
+    flexGrow: 1,
   },
+  label: {},
   input: {
     flexDirection: 'row',
     height: 40,
