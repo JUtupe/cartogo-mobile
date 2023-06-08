@@ -3,13 +3,14 @@ import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAuth} from '../context/Auth.hooks';
 import {RootStackParamList} from '../navigation/screens';
-import Logo from '../assets/icons/logo.svg';
+import LogoIcon from '../assets/icons/logo.svg';
 import LoginWave from '../assets/images/login-wave.svg';
 import LoginTire from '../assets/images/login-tire.svg';
 import {Colors} from '../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -17,17 +18,21 @@ export const LoginScreen = ({navigation}: Props) => {
   const {login} = useAuth();
 
   const onLoginClick = async () => {
-    try {
-      await login().then(response => {
+    await login()
+      .then(response => {
         if (response.properties.isMemberOfAnyRental) {
           navigation.navigate('Home');
         } else {
           navigation.navigate('NotMember');
         }
+      })
+      .catch(() => {
+        Toast.show({
+          type: 'error',
+          text1: 'Błąd logowania',
+          text2: 'Nie udało się zalogować. Spróbuj ponownie później.',
+        });
       });
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const onPrivacyPolicyClick = () => {};
@@ -43,7 +48,7 @@ export const LoginScreen = ({navigation}: Props) => {
       </View>
 
       <View style={styles.branding}>
-        <Logo width={256} height={256} />
+        <LogoIcon width={256} height={256} />
 
         <TextView variant={'headingL'} bold>
           Wypożyczajka

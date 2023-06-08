@@ -4,7 +4,7 @@ import {TextView} from './TextView';
 import {Colors} from '../../util/colors';
 import DropShadow from 'react-native-drop-shadow';
 
-interface ButtonProps {
+export interface ButtonProps {
   primary?: boolean;
   variant?: 'success' | 'error';
   title: string;
@@ -77,5 +77,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderStyle: 'solid',
+    marginBottom: 2,
   },
 });

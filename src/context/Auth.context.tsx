@@ -8,6 +8,10 @@ import {
   RentalInvitationResponse,
   UserResponse,
 } from '../api/responses';
+import {
+  removeAuthorizationHeader,
+  setAuthorizationHeader,
+} from '../api/axiosInstance';
 
 interface AuthContextProps {
   user: UserResponse | null;
@@ -54,7 +58,7 @@ export const AuthProvider = ({children}: Props) => {
       const authResponse: AuthResponse = await loginWithGoogle(
         userInfo.idToken,
       );
-
+      setAuthorizationHeader(authResponse.accessToken);
       setUser(authResponse.user);
       setPendingRentalInvitation(
         authResponse.properties.pendingInvitation ?? null,
@@ -67,6 +71,7 @@ export const AuthProvider = ({children}: Props) => {
   };
 
   const logout = async () => {
+    removeAuthorizationHeader();
     setUser(null);
   };
 
