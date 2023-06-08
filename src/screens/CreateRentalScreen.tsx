@@ -11,6 +11,7 @@ import {ControlledInput} from '../components/atoms/ControlledInput';
 import {createRental} from '../api/rental.api';
 import {Colors} from '../util/colors';
 import {Validations} from '../util/validations';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateRental'>;
 
@@ -35,9 +36,12 @@ export const CreateRentalScreen = ({navigation}: Props) => {
       .then(() => {
         navigation.navigate('Home');
       })
-      .catch(error => {
-        console.log(error);
-        //todo https://github.com/calintamas/react-native-toast-message/blob/945189fec9746b79d8b5b450e298ef391f8022fb/docs/custom-layouts.md
+      .catch(() => {
+        Toast.show({
+          type: 'error',
+          text1: 'Nie udało się utworzyć wypożyczalni.',
+          text2: 'Sprawdź poprawność formularza lub spróbuj ponownie później.',
+        });
       });
   };
 
