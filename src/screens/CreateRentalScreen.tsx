@@ -10,6 +10,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {ControlledInput} from '../components/atoms/ControlledInput';
 import {createRental} from '../api/rental.api';
 import {Colors} from '../util/colors';
+import {Validations} from '../util/validations';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateRental'>;
 
@@ -36,6 +37,7 @@ export const CreateRentalScreen = ({navigation}: Props) => {
       })
       .catch(error => {
         console.log(error);
+        //todo https://github.com/calintamas/react-native-toast-message/blob/945189fec9746b79d8b5b450e298ef391f8022fb/docs/custom-layouts.md
       });
   };
 
@@ -53,6 +55,7 @@ export const CreateRentalScreen = ({navigation}: Props) => {
         <ControlledInput
           name={'name'}
           control={control}
+          rules={{required: Validations.required}}
           label={'Nazwa wypożyczalni'}
         />
 
@@ -61,18 +64,26 @@ export const CreateRentalScreen = ({navigation}: Props) => {
             name={'address.postalCode'}
             control={control}
             placeholder={'00-000'}
+            rules={{
+              pattern: {
+                value: /^\d{2}-\d{3}$/,
+                message: 'Kod pocztowy musi być w formacie 00-000',
+              },
+              required: Validations.required,
+            }}
             label={'Kod pocztowy'}
           />
           <ControlledInput
             name={'address.city'}
             control={control}
+            rules={{required: Validations.required}}
             label={'Miejscowość'}
           />
           <ControlledInput
             name={'address.street'}
             control={control}
+            rules={{required: Validations.required}}
             label={'Ulica'}
-            style={{flexGrow: 2}}
           />
         </View>
 
@@ -80,17 +91,30 @@ export const CreateRentalScreen = ({navigation}: Props) => {
           Dane do dokumentów
         </TextView>
 
-        <ControlledInput name={'nip'} control={control} label={'NIP'} />
+        <ControlledInput
+          name={'nip'}
+          control={control}
+          label={'NIP'}
+          rules={{
+            required: Validations.required,
+            minLength: {
+              value: 10,
+              message: 'NIP musi mieć 10 znaków',
+            },
+          }}
+        />
 
         <View style={{gap: 16, flexDirection: 'row'}}>
           <ControlledInput
             name={'owner.firstName'}
             control={control}
+            rules={{required: Validations.required}}
             label={'Imię właściciela'}
           />
           <ControlledInput
             name={'owner.lastName'}
             control={control}
+            rules={{required: Validations.required}}
             label={'Nazwisko właściciela'}
           />
         </View>

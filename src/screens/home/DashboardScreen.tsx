@@ -12,7 +12,7 @@ export const DashboardScreen = () => {
         overScrollMode={'never'}
         style={CommonStyles.cutoutContent}
         contentContainerStyle={{gap: 16, alignItems: 'center'}}>
-        <TextView variant={'bodyM'}>Orders</TextView>
+        <TextView variant={'bodyM'}>Dashboard</TextView>
       </ScrollView>
     </SafeAreaView>
   );

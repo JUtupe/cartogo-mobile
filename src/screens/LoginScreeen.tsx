@@ -10,6 +10,7 @@ import {Colors} from '../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -17,17 +18,21 @@ export const LoginScreen = ({navigation}: Props) => {
   const {login} = useAuth();
 
   const onLoginClick = async () => {
-    try {
-      await login().then(response => {
+    await login()
+      .then(response => {
         if (response.properties.isMemberOfAnyRental) {
           navigation.navigate('Home');
         } else {
           navigation.navigate('NotMember');
         }
+      })
+      .catch(() => {
+        Toast.show({
+          type: 'error',
+          text1: 'Błąd logowania',
+          text2: 'Nie udało się zalogować. Spróbuj ponownie później.',
+        });
       });
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const onPrivacyPolicyClick = () => {};
