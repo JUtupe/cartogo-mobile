@@ -19,7 +19,7 @@ export interface RentalResponse {
     lastName: string;
   };
   ownerId: string;
-  userIds: string[];
+  users: UserResponse[];
   invitations: RentalInvitationResponse[];
 }
 
@@ -33,8 +33,10 @@ export interface RentalInvitationResponse {
 export interface AuthResponse {
   accessToken: string;
   user: UserResponse;
+  rental?: RentalResponse;
   properties: {
     isMemberOfAnyRental: boolean;
+    isRentalOwner: boolean;
     pendingInvitation?: RentalInvitationResponse;
   };
 }

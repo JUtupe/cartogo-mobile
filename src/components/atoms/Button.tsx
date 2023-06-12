@@ -8,6 +8,7 @@ export interface ButtonProps {
   primary?: boolean;
   variant?: 'success' | 'error';
   title: string;
+  icon?: React.ReactNode;
   greedy?: boolean;
   onPress: () => void;
   disabled?: boolean;
@@ -18,6 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
   primary = false,
   variant = 'success',
   title,
+  icon,
   greedy = true,
   onPress,
   disabled,
@@ -30,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <DropShadow
       style={[
-        greedy ? {flexGrow: 1} : {},
+        greedy && {alignSelf: 'stretch'},
         {
           shadowColor: shadowColor,
           shadowOffset: {
@@ -40,6 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
           shadowOpacity: 1,
           shadowRadius: 0,
         },
+        style,
       ]}>
       <TouchableOpacity
         style={[
@@ -48,18 +51,21 @@ export const Button: React.FC<ButtonProps> = ({
             backgroundColor: primary ? color : Colors.Light0,
             borderColor: color,
           },
-          style,
         ]}
         onPress={onPress}
         disabled={disabled}>
-        <TextView
-          variant={'bodyL'}
-          bold
-          style={{
-            color: textColor,
-          }}>
-          {title}
-        </TextView>
+        {title && (
+          <TextView
+            variant={'bodyL'}
+            bold
+            style={{
+              color: textColor,
+            }}>
+            {title}
+          </TextView>
+        )}
+
+        {icon}
       </TouchableOpacity>
     </DropShadow>
   );
@@ -72,8 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    padding: 8,
     borderRadius: 8,
     borderWidth: 2,
     borderStyle: 'solid',

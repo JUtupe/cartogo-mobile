@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleProp, StyleSheet, TextInput, View, ViewStyle} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {TextView} from './TextView';
 import {Colors} from '../../util/colors';
 import {TextStyles} from '../../util/styles';
@@ -13,6 +20,7 @@ export interface InputProps {
   onChangeText: (text: string) => void;
   onBlur?: () => void;
   style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
   greedy?: boolean;
 }
 
@@ -24,12 +32,22 @@ export const Input = ({
   onChangeText,
   onBlur,
   style,
+  labelStyle,
   greedy = true,
 }: InputProps) => {
   return (
-    <View style={[styles.container, greedy && {alignSelf: 'stretch'}, style]}>
+    <View
+      style={[
+        styles.container,
+        greedy && {alignSelf: 'stretch', flex: 1},
+        style,
+      ]}>
       {label && (
-        <TextView variant={'bodyM'} numberOfLines={1} ellipsizeMode={'tail'}>
+        <TextView
+          variant={'bodyM'}
+          numberOfLines={1}
+          ellipsizeMode={'tail'}
+          style={labelStyle}>
           {label}
         </TextView>
       )}
@@ -54,9 +72,7 @@ export const Input = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexShrink: 0,
-    flexGrow: 1,
+    flexDirection: 'column',
   },
   shadow: {
     shadowColor: Colors.Dark1,
