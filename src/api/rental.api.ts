@@ -29,7 +29,13 @@ export const createInvitation = async (
 };
 
 export const deleteInvitation = async (id: string): Promise<void> => {
-  await axiosInstance.delete<AuthResponse>(`/v1/rentals/invitations/${id}`);
+  await axiosInstance.delete(`/v1/rentals/invitations/${id}`);
+
+  return Promise.resolve();
+};
+
+export const deleteEmployee = async (id: string): Promise<void> => {
+  await axiosInstance.delete(`/v1/rentals/employees/${id}`);
 
   return Promise.resolve();
 };

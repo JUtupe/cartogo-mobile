@@ -1,7 +1,7 @@
 import {CommonStyles} from '../../util/styles';
 import {FlatList, Image, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from '../../util/colors';
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextView} from '../../components/atoms/TextView';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -14,6 +14,7 @@ import DropShadow from 'react-native-drop-shadow';
 import {RentalInvitationResponse, UserResponse} from '../../api/responses';
 import {InviteEmployeeDialog} from '../../components/organisms/InviteEmployeeDialog';
 import Toast from 'react-native-toast-message';
+import {useRental} from '../../context/Rental.hooks';
 
 type ManageEmployeesProps = NativeStackScreenProps<
   RootStackParamList,
@@ -25,8 +26,32 @@ type ListItem =
   | ({type: 'invitation'} & RentalInvitationResponse);
 
 export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
-  const {rental, user, inviteEmployee} = useAuth();
+  const {user} = useAuth();
+  const {rental, inviteEmployee, deleteInvitation, deleteEmployee} =
+    useRental();
   const [showInviteDialog, setShowInviteDialog] = useState(false);
+
+  const data: ListItem[] = useMemo(
+    () => [
+      ...(rental?.users
+        .filter(u => u.id !== user?.id)
+        .map(
+          u =>
+            ({
+              type: 'user',
+              ...u,
+            } as ListItem),
+        ) ?? []),
+      ...(rental?.invitations.map(
+        invitation =>
+          ({
+            type: 'invitation',
+            ...invitation,
+          } as ListItem),
+      ) ?? []),
+    ],
+    [rental?.invitations, rental?.users, user?.id],
+  );
 
   const onInviteEmployeePress = (email: string) => {
     inviteEmployee(email)
@@ -46,11 +71,23 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
   };
 
   const onRemoveEmployeePress = (userId: string) => {
-    console.log(userId);
+    deleteEmployee(userId).catch(e => {
+      console.error(e);
+      Toast.show({
+        type: 'error',
+        text1: 'Nie udało się usunąć pracownika',
+      });
+    });
   };
 
   const onRemoveInvitationPress = (invitationId: string) => {
-    console.log(invitationId);
+    deleteInvitation(invitationId).catch(e => {
+      console.error(e);
+      Toast.show({
+        type: 'error',
+        text1: 'Nie udało się usunąć zaproszenia',
+      });
+    });
   };
 
   return (
@@ -59,24 +96,7 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
       <FlatList<ListItem>
         style={CommonStyles.cutoutContent}
         contentContainerStyle={{gap: 16}}
-        data={[
-          ...(rental?.users
-            .filter(u => u.id !== user?.id)
-            .map(
-              u =>
-                ({
-                  type: 'user',
-                  ...u,
-                } as ListItem),
-            ) ?? []),
-          ...(rental?.invitations.map(
-            invitation =>
-              ({
-                type: 'invitation',
-                ...invitation,
-              } as ListItem),
-          ) ?? []),
-        ]}
+        data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <EmployeeItem

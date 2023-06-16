@@ -27,8 +27,13 @@ export const InviteEmployeeDialog: React.FC<InviteEmployeeDialogProps> = ({
     onDismiss();
   };
 
+  const onClickOutside = () => {
+    reset({email: ''});
+    onDismiss();
+  };
+
   return (
-    <Dialog isOpen={isOpen} onDismiss={onDismiss}>
+    <Dialog isOpen={isOpen} onDismiss={onClickOutside}>
       <TextView variant={'headingS'} bold style={{color: Colors.White}}>
         Zaproś pracownika
       </TextView>

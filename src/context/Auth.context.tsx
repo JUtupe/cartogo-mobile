@@ -6,31 +6,25 @@ import {loginWithGoogle} from '../api/auth.api';
 import {
   AuthResponse,
   RentalInvitationResponse,
-  RentalResponse,
   UserResponse,
 } from '../api/responses';
 import {
   removeAuthorizationHeader,
   setAuthorizationHeader,
 } from '../api/axiosInstance';
-import {createInvitation} from '../api/rental.api';
 
 interface AuthContextProps {
   user: UserResponse | null;
-  rental: RentalResponse | null;
   pendingRentalInvitation: RentalInvitationResponse | null;
   isRentalOwner: boolean;
-  inviteEmployee: (email: string) => Promise<void>;
   login: () => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
-  rental: null,
   pendingRentalInvitation: null,
   isRentalOwner: false,
-  inviteEmployee: () => Promise.reject(),
   login: () => Promise.reject(),
   logout: () => Promise.reject(),
 });
@@ -41,7 +35,6 @@ interface Props {
 
 export const AuthProvider = ({children}: Props) => {
   const [user, setUser] = useState<UserResponse | null>(null);
-  const [rental, setRental] = useState<RentalResponse | null>(null);
   const [isRentalOwner, setIsRentalOwner] = useState<boolean>(false);
   const [pendingRentalInvitation, setPendingRentalInvitation] =
     useState<RentalInvitationResponse | null>(null);
@@ -70,7 +63,6 @@ export const AuthProvider = ({children}: Props) => {
       );
       setAuthorizationHeader(authResponse.accessToken);
       setUser(authResponse.user);
-      setRental(authResponse.rental ?? null);
       setIsRentalOwner(authResponse.properties.isRentalOwner);
       setPendingRentalInvitation(
         authResponse.properties.pendingInvitation ?? null,
@@ -87,30 +79,12 @@ export const AuthProvider = ({children}: Props) => {
     setUser(null);
   };
 
-  const inviteEmployee = async (email: string) => {
-    if (!rental) {
-      return Promise.reject('No rental');
-    }
-
-    try {
-      const savedRental = await createInvitation(email);
-
-      setRental(savedRental);
-
-      return Promise.resolve();
-    } catch (error: any) {
-      return Promise.reject(error.message);
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
         user,
-        rental,
         pendingRentalInvitation,
         isRentalOwner,
-        inviteEmployee: inviteEmployee,
         login,
         logout,
       }}>
