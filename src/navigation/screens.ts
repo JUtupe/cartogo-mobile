@@ -5,7 +5,11 @@ export type RootStackParamList = {
   Home: undefined;
   NotMember: undefined;
   CreateRental: undefined;
+  EditRental: undefined;
   Settings: undefined;
+  ManageEmployees: undefined;
+  ManageFleet: undefined;
+  OrderHistory: undefined;
 };
 
 export type HomeStackParamList = {

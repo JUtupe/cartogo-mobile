@@ -9,8 +9,12 @@ import {Colors} from '../util/colors';
 import LogoIcon from '../assets/icons/logo.svg';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SettingsScreen} from '../screens/SettingsScreen';
+import {SettingsScreen} from '../screens/settings/SettingsScreen';
 import {HomeNavigation} from './HomeNavigation';
+import {ManageEmployeesScreen} from '../screens/settings/ManageEmployeesScreen';
+import {ManageFleetScreen} from '../screens/settings/ManageFleetScreen';
+import {OrderHistoryScreen} from '../screens/settings/OrderHistoryScreen';
+import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +51,28 @@ export const RootNavigation = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="CreateRental"
+        component={CreateRentalScreen}
+        options={{
+          headerTitle: 'Tworzenie wypożyczalni',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="EditRental"
+        component={EditRentalScreen}
+        options={{
+          headerTitle: 'Edycja wypożyczalni',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
@@ -58,10 +84,32 @@ export const RootNavigation = () => {
         }}
       />
       <Stack.Screen
-        name="CreateRental"
-        component={CreateRentalScreen}
+        name="ManageEmployees"
+        component={ManageEmployeesScreen}
         options={{
-          headerTitle: 'Tworzenie wypożyczalni',
+          headerTitle: 'Zarządzanie pracownikami',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="ManageFleet"
+        component={ManageFleetScreen}
+        options={{
+          headerTitle: 'Zarządzanie pojazdami',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="OrderHistory"
+        component={OrderHistoryScreen}
+        options={{
+          headerTitle: 'Archiwum zleceń',
           headerStyle: {
             backgroundColor: Colors.Dark1,
           },

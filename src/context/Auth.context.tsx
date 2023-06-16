@@ -16,6 +16,7 @@ import {
 interface AuthContextProps {
   user: UserResponse | null;
   pendingRentalInvitation: RentalInvitationResponse | null;
+  isRentalOwner: boolean;
   login: () => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
@@ -23,6 +24,7 @@ interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
   pendingRentalInvitation: null,
+  isRentalOwner: false,
   login: () => Promise.reject(),
   logout: () => Promise.reject(),
 });
@@ -33,6 +35,7 @@ interface Props {
 
 export const AuthProvider = ({children}: Props) => {
   const [user, setUser] = useState<UserResponse | null>(null);
+  const [isRentalOwner, setIsRentalOwner] = useState<boolean>(false);
   const [pendingRentalInvitation, setPendingRentalInvitation] =
     useState<RentalInvitationResponse | null>(null);
 
@@ -60,6 +63,7 @@ export const AuthProvider = ({children}: Props) => {
       );
       setAuthorizationHeader(authResponse.accessToken);
       setUser(authResponse.user);
+      setIsRentalOwner(authResponse.properties.isRentalOwner);
       setPendingRentalInvitation(
         authResponse.properties.pendingInvitation ?? null,
       );
@@ -80,6 +84,7 @@ export const AuthProvider = ({children}: Props) => {
       value={{
         user,
         pendingRentalInvitation,
+        isRentalOwner,
         login,
         logout,
       }}>

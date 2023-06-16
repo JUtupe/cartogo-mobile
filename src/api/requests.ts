@@ -11,3 +11,7 @@ export interface RentalRequest {
     lastName: string;
   };
 }
+
+export interface InvitationRequest {
+  email: string;
+}

@@ -4,20 +4,26 @@ import {RootNavigation} from './src/navigation/RootNavigation';
 import {AuthProvider} from './src/context/Auth.context';
 import Toast from 'react-native-toast-message';
 import {toastConfig} from './src/util/toasts';
+import {PortalProvider} from '@gorhom/portal';
+import {RentalProvider} from './src/context/Rental.context';
 
 function App(): React.ReactNode {
   return (
-    <NavigationContainer>
-      <AuthProvider>
-        <RootNavigation />
+    <PortalProvider>
+      <NavigationContainer>
+        <AuthProvider>
+          <RentalProvider>
+            <RootNavigation />
 
-        <Toast
-          position={'top'}
-          onPress={() => Toast.hide()}
-          config={toastConfig}
-        />
-      </AuthProvider>
-    </NavigationContainer>
+            <Toast
+              position={'top'}
+              onPress={() => Toast.hide()}
+              config={toastConfig}
+            />
+          </RentalProvider>
+        </AuthProvider>
+      </NavigationContainer>
+    </PortalProvider>
   );
 }
 

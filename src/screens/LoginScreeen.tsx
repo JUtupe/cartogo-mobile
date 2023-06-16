@@ -11,17 +11,23 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
 import Toast from 'react-native-toast-message';
+import {useRental} from '../context/Rental.hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export const LoginScreen = ({navigation}: Props) => {
   const {login} = useAuth();
+  const {initRental} = useRental();
 
   const onLoginClick = async () => {
     await login()
       .then(response => {
         if (response.properties.isMemberOfAnyRental) {
           navigation.navigate('Home');
+
+          if (response.rental) {
+            initRental(response.rental);
+          }
         } else {
           navigation.navigate('NotMember');
         }
