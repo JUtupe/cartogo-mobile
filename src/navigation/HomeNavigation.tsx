@@ -6,16 +6,50 @@ import {HomeStackParamList} from './screens';
 import {DashboardScreen} from '../screens/home/DashboardScreen';
 import {OrdersScreen} from '../screens/home/OrdersScreen';
 import {FleetScreen} from '../screens/home/FleetScreen';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../util/colors';
 import DashboardIcon from '../assets/icons/dashboard.svg';
 import FleetIcon from '../assets/icons/fleet.svg';
 import OrdersIcon from '../assets/icons/order.svg';
+import {useRental} from '../context/Rental.hooks';
+import Toast from 'react-native-toast-message';
+import {useAuth} from '../context/Auth.hooks';
+import {getMe} from '../api/auth.api';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 export const HomeNavigation = () => {
+  const {initRental} = useRental();
+  const {init, logout} = useAuth();
+
+  useEffect(() => {
+    const refreshData = async () => {
+      try {
+        console.log('refreshing data');
+        const authResponse = await getMe();
+        init(authResponse);
+        if (authResponse.rental) {
+          initRental(authResponse.rental);
+        }
+      } catch (e: any) {
+        console.log(e);
+        if (e.response?.status === 401 || e.response?.status === 403) {
+          Toast.show({
+            type: 'error',
+            text1: 'Wystąpił błąd',
+            text2: 'Zostałeś wylogowany. Zaloguj się ponownie.',
+          });
+
+          logout();
+        }
+      }
+    };
+
+    refreshData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Tab.Navigator screenOptions={{headerShown: false}} tabBar={TabBar}>
       <Tab.Screen
