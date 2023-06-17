@@ -8,6 +8,12 @@ export const createRental = async (
   return await axiosInstance.post<RentalResponse>('/v1/rentals', rental).then();
 };
 
+export const getRental = async (): Promise<RentalResponse> => {
+  const response = await axiosInstance.get<RentalResponse>('/v1/rentals/@me');
+
+  return Promise.resolve(response.data);
+};
+
 export const acceptInvitation = async (id: string): Promise<void> => {
   await axiosInstance.post<AuthResponse>(
     `/v1/rentals/invitations/${id}/accept`,

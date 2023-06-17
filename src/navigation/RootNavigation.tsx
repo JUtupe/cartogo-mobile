@@ -19,10 +19,41 @@ import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigation = () => {
-  const {user} = useAuth();
+  const {user, isMemberOfAnyRental} = useAuth();
   const {navigate} = useNavigation<StackNavigation>();
 
   const isLoggedIn = !!user;
+
+  const loggedOutRoutes = (
+    <>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+    </>
+  );
+
+  const notMemberRoutes = (
+    <>
+      <Stack.Screen
+        name="NotMember"
+        component={NotMemberScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CreateRental"
+        component={CreateRentalScreen}
+        options={{
+          headerTitle: 'Tworzenie wypożyczalni',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+    </>
+  );
 
   const loggedInRoutes = (
     <>
@@ -42,22 +73,6 @@ export const RootNavigation = () => {
               <LogoIcon width={32} height={32} style={{marginRight: 10}} />
             </TouchableOpacity>
           ),
-          headerTintColor: Colors.White,
-        }}
-      />
-      <Stack.Screen
-        name="NotMember"
-        component={NotMemberScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="CreateRental"
-        component={CreateRentalScreen}
-        options={{
-          headerTitle: 'Tworzenie wypożyczalni',
-          headerStyle: {
-            backgroundColor: Colors.Dark1,
-          },
           headerTintColor: Colors.White,
         }}
       />
@@ -118,18 +133,17 @@ export const RootNavigation = () => {
       />
     </>
   );
-  const loggedOutRoutes = (
-    <>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{headerShown: false}}
-      />
-    </>
-  );
 
-  const initialRouteName = isLoggedIn ? 'Home' : 'Login';
-  const routes = isLoggedIn ? loggedInRoutes : loggedOutRoutes;
+  const initialRouteName = isLoggedIn
+    ? isMemberOfAnyRental
+      ? 'Home'
+      : 'NotMember'
+    : 'Login';
+  const routes = isLoggedIn
+    ? isMemberOfAnyRental
+      ? loggedInRoutes
+      : notMemberRoutes
+    : loggedOutRoutes;
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName}>

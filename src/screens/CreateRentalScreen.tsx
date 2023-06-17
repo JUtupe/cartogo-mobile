@@ -8,10 +8,11 @@ import React from 'react';
 import {Button} from '../components/atoms/Button';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {ControlledInput} from '../components/atoms/ControlledInput';
-import {createRental} from '../api/rental.api';
 import {Colors} from '../util/colors';
 import {Validations} from '../util/validations';
 import Toast from 'react-native-toast-message';
+import {useRental} from '../context/Rental.hooks';
+import {useAuth} from '../context/Auth.hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateRental'>;
 
@@ -29,12 +30,15 @@ type RentalRequest = {
   };
 };
 
-export const CreateRentalScreen = ({navigation}: Props) => {
+export const CreateRentalScreen = ({}: Props) => {
   const {control, handleSubmit} = useForm<RentalRequest>();
+  const {createRental} = useRental();
+  const {updateRentalState} = useAuth();
+
   const onSubmit: SubmitHandler<RentalRequest> = data => {
     createRental(data)
       .then(() => {
-        navigation.navigate('Home');
+        updateRentalState(true, true);
       })
       .catch(() => {
         Toast.show({

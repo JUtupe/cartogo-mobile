@@ -15,10 +15,12 @@ import LoginWave from '../assets/images/login-wave.svg';
 type Props = NativeStackScreenProps<RootStackParamList, 'NotMember'>;
 
 export const NotMemberScreen = ({navigation}: Props) => {
-  const {user, pendingRentalInvitation, logout} = useAuth();
+  const {user, pendingRentalInvitation, logout, updateRentalState} = useAuth();
 
   const onAcceptInvitationClick = (invitationId: string) => {
     acceptInvitation(invitationId).then(() => {});
+
+    updateRentalState(true, true);
   };
 
   const onCancelInvitationClick = (invitationId: string) => {

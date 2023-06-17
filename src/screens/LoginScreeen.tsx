@@ -23,8 +23,6 @@ export const LoginScreen = ({navigation}: Props) => {
     await login()
       .then(response => {
         if (response.properties.isMemberOfAnyRental) {
-          navigation.navigate('Home');
-
           if (response.rental) {
             initRental(response.rental);
           }

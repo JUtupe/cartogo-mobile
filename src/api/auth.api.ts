@@ -11,3 +11,9 @@ export const loginWithGoogle = async (
 
   return response.data;
 };
+
+export const getMe = async (): Promise<AuthResponse> => {
+  const response = await axiosInstance.get<AuthResponse>('/v1/auth/@me');
+
+  return response.data;
+};
