@@ -1,6 +1,6 @@
-import {AuthResponse, RentalResponse} from './responses';
+import {AuthResponse, RentalResponse, VehicleResponse} from './responses';
 import {axiosInstance} from './axiosInstance';
-import {RentalRequest} from './requests';
+import {RentalRequest, VehicleRequest} from './requests';
 
 export const createRental = async (
   rental: RentalRequest,
@@ -26,7 +26,7 @@ export const createInvitation = async (
   request: string,
 ): Promise<RentalResponse> => {
   const response = await axiosInstance.post<RentalResponse>(
-    '/v1/rentals/@me/invitations',
+    '/v1/rentals/invitations',
     request,
     {headers: {'Content-Type': 'text/plain'}},
   );
@@ -44,4 +44,31 @@ export const deleteEmployee = async (id: string): Promise<void> => {
   await axiosInstance.delete(`/v1/rentals/employees/${id}`);
 
   return Promise.resolve();
+};
+
+export const createVehicle = async (
+  request: VehicleRequest,
+): Promise<VehicleResponse> => {
+  const formData = new FormData();
+
+  formData.append('form', JSON.stringify(request));
+
+  const response = await axiosInstance.request<VehicleResponse>({
+    method: 'POST',
+    url: '/v1/vehicles',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    responseType: 'json',
+    data: formData,
+    transformRequest: () => formData,
+  });
+
+  return Promise.resolve(response.data);
+};
+
+export const getVehicles = async (): Promise<VehicleResponse[]> => {
+  const response = await axiosInstance.get<VehicleResponse[]>('/v1/vehicles');
+
+  return Promise.resolve(response.data);
 };

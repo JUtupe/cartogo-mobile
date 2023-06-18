@@ -133,7 +133,7 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
 };
 
 interface EmployeeItemProps {
-  avatar?: string;
+  avatar: string | null;
   name: string;
   onRemovePress: () => void;
 }
@@ -158,7 +158,7 @@ export const EmployeeItem: React.FC<EmployeeItemProps> = ({
       ]}>
       <View style={styles.user}>
         <View style={styles.userData}>
-          {avatar !== undefined && (
+          {avatar !== null && (
             <Image source={{uri: avatar}} style={styles.avatar} />
           )}
           <TextView
