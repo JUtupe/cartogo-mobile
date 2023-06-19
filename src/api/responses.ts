@@ -2,7 +2,7 @@ export interface UserResponse {
   id: string;
   name: string;
   email: string;
-  avatar?: string;
+  avatar: string | null;
 }
 
 export interface RentalResponse {
@@ -21,6 +21,18 @@ export interface RentalResponse {
   ownerId: string;
   users: UserResponse[];
   invitations: RentalInvitationResponse[];
+}
+
+export interface VehicleResponse {
+  id: string;
+  registrationNumber: string;
+  name: string;
+  image?: string;
+  state: {
+    mileage: number;
+    fuelLevel: number;
+    condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
+  };
 }
 
 export interface RentalInvitationResponse {

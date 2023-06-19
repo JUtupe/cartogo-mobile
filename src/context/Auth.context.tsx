@@ -79,7 +79,8 @@ export const AuthProvider = ({children}: Props) => {
   }, []);
 
   const handleAuthResponse = async (authResponse: AuthResponse) => {
-    setAuthorizationHeader(authResponse.accessToken);
+    await setAuthorizationHeader(authResponse.accessToken);
+
     setUser(authResponse.user);
     setIsRentalOwner(authResponse.properties.isRentalOwner);
     setMemberOfAnyRental(authResponse.properties.isMemberOfAnyRental);
@@ -91,7 +92,7 @@ export const AuthProvider = ({children}: Props) => {
   const init = async (authResponse: AuthResponse) => {
     await AsyncStorage.setItem(KEY_AUTH, JSON.stringify(authResponse));
 
-    handleAuthResponse(authResponse);
+    await handleAuthResponse(authResponse);
   };
 
   const updateRentalState = async (
@@ -113,7 +114,7 @@ export const AuthProvider = ({children}: Props) => {
       const authResponse: AuthResponse = await loginWithGoogle(
         userInfo.idToken,
       );
-      handleAuthResponse(authResponse);
+      await handleAuthResponse(authResponse);
       await AsyncStorage.setItem(KEY_AUTH, JSON.stringify(authResponse));
 
       return Promise.resolve(authResponse);

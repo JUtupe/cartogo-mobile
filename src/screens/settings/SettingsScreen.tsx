@@ -51,12 +51,12 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
       <StatusBar backgroundColor={Colors.Dark1} />
       <View
         style={[
-          CommonStyles.cutoutContent,
+          CommonStyles.cutoutStyle,
           {flex: 1, flexDirection: 'column', gap: 16},
         ]}>
         <ScrollView
           overScrollMode={'never'}
-          contentContainerStyle={{gap: 16, alignItems: 'center'}}
+          contentContainerStyle={CommonStyles.cutoutContentContainer}
           style={{
             flex: 1,
             flexDirection: 'column',

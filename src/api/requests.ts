@@ -12,6 +12,16 @@ export interface RentalRequest {
   };
 }
 
+export interface VehicleRequest {
+  registrationNumber: string;
+  name: string;
+  state: {
+    mileage: number;
+    fuelLevel: number;
+    condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
+  };
+}
+
 export interface InvitationRequest {
   email: string;
 }

@@ -13,22 +13,9 @@ import {Validations} from '../util/validations';
 import Toast from 'react-native-toast-message';
 import {useRental} from '../context/Rental.hooks';
 import {useAuth} from '../context/Auth.hooks';
+import {RentalRequest} from '../api/requests';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateRental'>;
-
-type RentalRequest = {
-  name: string;
-  nip: string;
-  address: {
-    postalCode: string;
-    street: string;
-    city: string;
-  };
-  owner: {
-    firstName: string;
-    lastName: string;
-  };
-};
 
 export const CreateRentalScreen = ({}: Props) => {
   const {control, handleSubmit} = useForm<RentalRequest>();
@@ -54,8 +41,8 @@ export const CreateRentalScreen = ({}: Props) => {
       <StatusBar backgroundColor={Colors.Dark1} />
       <ScrollView
         overScrollMode={'never'}
-        style={CommonStyles.cutoutContent}
-        contentContainerStyle={{gap: 16, alignItems: 'center'}}>
+        style={CommonStyles.cutoutStyle}
+        contentContainerStyle={CommonStyles.cutoutContentContainer}>
         <TextView variant={'bodyM'} bold>
           Podstawowe dane
         </TextView>

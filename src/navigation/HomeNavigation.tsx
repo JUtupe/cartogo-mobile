@@ -20,7 +20,7 @@ import {getMe} from '../api/auth.api';
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 export const HomeNavigation = () => {
-  const {initRental} = useRental();
+  const {initRental, fetchVehicles} = useRental();
   const {init, logout} = useAuth();
 
   useEffect(() => {
@@ -28,9 +28,11 @@ export const HomeNavigation = () => {
       try {
         console.log('refreshing data');
         const authResponse = await getMe();
-        init(authResponse);
+        await init(authResponse);
+
         if (authResponse.rental) {
-          initRental(authResponse.rental);
+          await initRental(authResponse.rental);
+          await fetchVehicles();
         }
       } catch (e: any) {
         console.log(e);

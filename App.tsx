@@ -6,24 +6,28 @@ import Toast from 'react-native-toast-message';
 import {toastConfig} from './src/util/toasts';
 import {PortalProvider} from '@gorhom/portal';
 import {RentalProvider} from './src/context/Rental.context';
+import {PaperProvider} from 'react-native-paper';
+import {paperTheme} from './src/util/paperTheme';
 
 function App(): React.ReactNode {
   return (
-    <PortalProvider>
-      <NavigationContainer>
-        <AuthProvider>
-          <RentalProvider>
-            <RootNavigation />
+    <PaperProvider theme={paperTheme}>
+      <PortalProvider>
+        <NavigationContainer>
+          <AuthProvider>
+            <RentalProvider>
+              <RootNavigation />
 
-            <Toast
-              position={'top'}
-              onPress={() => Toast.hide()}
-              config={toastConfig}
-            />
-          </RentalProvider>
-        </AuthProvider>
-      </NavigationContainer>
-    </PortalProvider>
+              <Toast
+                position={'top'}
+                onPress={() => Toast.hide()}
+                config={toastConfig}
+              />
+            </RentalProvider>
+          </AuthProvider>
+        </NavigationContainer>
+      </PortalProvider>
+    </PaperProvider>
   );
 }
 

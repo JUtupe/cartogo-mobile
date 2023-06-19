@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  KeyboardType,
   StyleProp,
   StyleSheet,
   TextInput,
@@ -22,6 +23,7 @@ export interface InputProps {
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
   greedy?: boolean;
+  keyboardType?: KeyboardType;
 }
 
 export const Input = ({
@@ -34,6 +36,7 @@ export const Input = ({
   style,
   labelStyle,
   greedy = true,
+  keyboardType,
 }: InputProps) => {
   return (
     <View
@@ -55,6 +58,7 @@ export const Input = ({
         <TextInput
           style={[TextStyles.bodyL, styles.input]}
           value={value}
+          keyboardType={keyboardType}
           onChangeText={onChangeText}
           onBlur={onBlur}
           placeholder={placeholder}
