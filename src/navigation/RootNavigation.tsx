@@ -16,6 +16,7 @@ import {ManageFleetScreen} from '../screens/settings/ManageFleetScreen';
 import {OrderHistoryScreen} from '../screens/settings/OrderHistoryScreen';
 import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
 import {CreateVehicleScreen} from '../screens/CreateVehicleScreen';
+import {EditVehicleScreen} from '../screens/EditVehicleScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -93,6 +94,17 @@ export const RootNavigation = () => {
         component={CreateVehicleScreen}
         options={{
           headerTitle: 'Dodawanie pojazdu',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="EditVehicle"
+        component={EditVehicleScreen}
+        options={{
+          headerTitle: 'Edycja pojazdu',
           headerStyle: {
             backgroundColor: Colors.Dark1,
           },

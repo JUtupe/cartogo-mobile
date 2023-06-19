@@ -3,20 +3,33 @@ import React, {createContext, useEffect, useState} from 'react';
 import {
   createRental as apiCreateRental,
   createVehicle as apiCreateVehicle,
+  editVehicle as apiEditVehicle,
   getVehicles as apiGetVehicles,
+  deleteVehicle as apiDeleteVehicle,
   createInvitation as apiCreateInvitation,
   deleteInvitation as apiDeleteInvitation,
   deleteEmployee as apiDeleteEmployee,
 } from '../api/rental.api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RentalRequest, VehicleRequest} from '../api/requests';
+import {FormImage} from '../util/FormImage';
 
 interface RentalContextProps {
   rental: RentalResponse | null;
   vehicles: VehicleResponse[];
-  createRental: (rental: RentalRequest) => Promise<RentalResponse>;
-  createVehicle: (vehicle: VehicleRequest) => Promise<VehicleResponse>;
   initRental: (rental: RentalResponse) => void;
+  createRental: (rental: RentalRequest) => Promise<RentalResponse>;
+  fetchVehicles: () => Promise<void>;
+  createVehicle: (
+    vehicle: VehicleRequest,
+    image?: FormImage,
+  ) => Promise<VehicleResponse>;
+  editVehicle: (
+    vehicleId: string,
+    vehicle: VehicleRequest,
+    image?: FormImage,
+  ) => Promise<VehicleResponse>;
+  deleteVehicle: (vehicleId: string) => Promise<void>;
   inviteEmployee: (email: string) => Promise<void>;
   deleteEmployee: (userId: string) => Promise<void>;
   deleteInvitation: (invitationId: string) => Promise<void>;
@@ -25,9 +38,12 @@ interface RentalContextProps {
 export const RentalContext = createContext<RentalContextProps>({
   rental: null,
   vehicles: [],
-  createRental: () => Promise.reject(),
-  createVehicle: () => Promise.reject(),
   initRental: () => {},
+  createRental: () => Promise.reject(),
+  fetchVehicles: () => Promise.reject(),
+  createVehicle: () => Promise.reject(),
+  editVehicle: () => Promise.reject(),
+  deleteVehicle: () => Promise.reject(),
   inviteEmployee: () => Promise.reject(),
   deleteEmployee: () => Promise.reject(),
   deleteInvitation: () => Promise.reject(),
@@ -49,17 +65,28 @@ export const RentalProvider = ({children}: Props) => {
 
       if (rental) {
         setRental(JSON.parse(rental));
-        await apiGetVehicles().then(setVehicles);
       }
     };
 
     loadData();
   }, []);
 
-  const initRental = (rental: RentalResponse) => {
-    AsyncStorage.setItem(KEY_RENTAL, JSON.stringify(rental));
+  const initRental = async (rental: RentalResponse) => {
+    await AsyncStorage.setItem(KEY_RENTAL, JSON.stringify(rental));
 
-    setRental(rental);
+    await setRental(rental);
+  };
+
+  const fetchVehicles = async () => {
+    try {
+      const vehicles = await apiGetVehicles();
+
+      setVehicles(vehicles);
+
+      return Promise.resolve();
+    } catch (error: any) {
+      return Promise.reject(error.message);
+    }
   };
 
   const createRental = async (rental: RentalRequest) => {
@@ -74,13 +101,13 @@ export const RentalProvider = ({children}: Props) => {
     }
   };
 
-  const createVehicle = async (vehicle: VehicleRequest) => {
+  const createVehicle = async (vehicle: VehicleRequest, image?: FormImage) => {
     if (!rental) {
       return Promise.reject('No rental');
     }
 
     try {
-      const savedVehicle = await apiCreateVehicle(vehicle);
+      const savedVehicle = await apiCreateVehicle(vehicle, image);
 
       setVehicles([...vehicles, savedVehicle]);
 
@@ -88,6 +115,39 @@ export const RentalProvider = ({children}: Props) => {
     } catch (error: any) {
       console.log(error);
       return Promise.reject(error);
+    }
+  };
+
+  const editVehicle = async (
+    vehicleId: string,
+    vehicle: VehicleRequest,
+    image?: FormImage,
+  ) => {
+    if (!rental) {
+      return Promise.reject('No rental');
+    }
+
+    try {
+      const savedVehicle = await apiEditVehicle(vehicleId, vehicle, image);
+
+      setVehicles([...vehicles.filter(v => v.id !== vehicleId), savedVehicle]);
+
+      return Promise.resolve(savedVehicle);
+    } catch (error: any) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  };
+
+  const deleteVehicle = async (vehicleId: string) => {
+    try {
+      await apiDeleteVehicle(vehicleId);
+
+      setVehicles(vehicles.filter(v => v.id !== vehicleId));
+
+      return Promise.resolve();
+    } catch (error: any) {
+      return Promise.reject(error.message);
     }
   };
 
@@ -160,6 +220,9 @@ export const RentalProvider = ({children}: Props) => {
         createRental: createRental,
         createVehicle: createVehicle,
         initRental: initRental,
+        fetchVehicles: fetchVehicles,
+        editVehicle: editVehicle,
+        deleteVehicle: deleteVehicle,
         deleteEmployee: deleteEmployee,
         deleteInvitation: deleteInvitation,
       }}>

@@ -68,7 +68,7 @@ export const CommonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cutoutContent: {
+  cutoutStyle: {
     backgroundColor: Colors.Light0,
     display: 'flex',
     width: '100%',
@@ -76,5 +76,10 @@ export const CommonStyles = StyleSheet.create({
     borderTopRightRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 24,
+  },
+  cutoutContentContainer: {
+    gap: 16,
+    alignItems: 'center',
+    paddingBottom: 32,
   },
 });

@@ -94,13 +94,13 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
     <SafeAreaView style={CommonStyles.cutoutContainer}>
       <StatusBar backgroundColor={Colors.Dark1} />
       <FlatList<ListItem>
-        style={CommonStyles.cutoutContent}
+        style={CommonStyles.cutoutStyle}
         contentContainerStyle={{gap: 16}}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <EmployeeItem
-            avatar={item.type === 'user' ? item.avatar : undefined}
+            avatar={item.type === 'user' ? item.avatar : null}
             name={
               item.type === 'user' ? item.name : `Zaproszenie: ${item.email}`
             }

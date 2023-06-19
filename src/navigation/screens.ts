@@ -7,6 +7,7 @@ export type RootStackParamList = {
   CreateRental: undefined;
   CreateVehicle: undefined;
   EditRental: undefined;
+  EditVehicle: {vehicleId: string};
   Settings: undefined;
   ManageEmployees: undefined;
   ManageFleet: undefined;

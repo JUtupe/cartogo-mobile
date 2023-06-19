@@ -1,25 +1,34 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React from 'react';
 import {RootStackParamList} from '../navigation/screens';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {CommonStyles} from '../util/styles';
 import {ScrollView, StatusBar} from 'react-native';
 import {Colors} from '../util/colors';
-import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRental} from '../context/Rental.hooks';
-import Toast from 'react-native-toast-message';
-import {AxiosError} from 'axios';
 import {
   VehicleForm,
   VehicleFormData,
 } from '../components/organisms/VehicleForm';
+import Toast from 'react-native-toast-message';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CreateVehicle'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'EditVehicle'>;
 
-export const CreateVehicleScreen = ({navigation}: Props) => {
-  const {createVehicle} = useRental();
+export const EditVehicleScreen = ({navigation, route}: Props) => {
+  const {vehicleId} = route.params;
+  const {vehicles, editVehicle} = useRental();
+  const vehicle = vehicles.find(v => v.id === vehicleId);
+
+  if (!vehicle) {
+    console.log('Vehicle not found');
+
+    navigation.goBack();
+    return null;
+  }
 
   const onSubmit = (data: VehicleFormData) => {
-    createVehicle(
+    editVehicle(
+      vehicleId,
       {
         registrationNumber: data.registrationNumber,
         name: data.name,
@@ -32,18 +41,19 @@ export const CreateVehicleScreen = ({navigation}: Props) => {
       data.image,
     )
       .then(() => {
+        navigation.goBack();
+
         Toast.show({
           type: 'success',
-          text1: 'Pojazd został utworzony.',
+          text1: 'Pojazd został zaktualizowany.',
         });
-
-        navigation.goBack();
       })
       .catch(e => {
-        console.log((e as AxiosError).request);
+        console.log(e);
+
         Toast.show({
           type: 'error',
-          text1: 'Nie udało się utworzyć pojazdu.',
+          text1: 'Nie udało się zaktualizować pojazdu.',
           text2: 'Sprawdź poprawność formularza lub spróbuj ponownie później.',
         });
       });
@@ -58,7 +68,16 @@ export const CreateVehicleScreen = ({navigation}: Props) => {
         contentContainerStyle={CommonStyles.cutoutContentContainer}>
         <VehicleForm
           onSubmit={onSubmit}
-          defaultValues={{state: {fuelLevel: '50', condition: 'CLEAN'}}}
+          defaultValues={{
+            registrationNumber: vehicle.registrationNumber,
+            name: vehicle.name,
+            state: {
+              condition: vehicle.state.condition,
+              mileage: vehicle.state.mileage.toString(),
+              fuelLevel: vehicle.state.fuelLevel.toString(),
+            },
+            image: undefined,
+          }}
         />
       </ScrollView>
     </SafeAreaView>

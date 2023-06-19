@@ -20,19 +20,23 @@ type ManageFleetScreenProps = NativeStackScreenProps<
 >;
 
 export const ManageFleetScreen = ({navigation}: ManageFleetScreenProps) => {
-  const {vehicles} = useRental();
+  const {vehicles, deleteVehicle} = useRental();
   const onAddVehiclePress = () => {
     navigation.navigate('CreateVehicle');
   };
 
-  const onRemoveVehiclePress = (vehicleId: string) => {};
-  const onEditVehiclePress = (vehicleId: string) => {};
+  const onRemoveVehiclePress = (vehicleId: string) => {
+    deleteVehicle(vehicleId); //todo show confirmation dialog
+  };
+  const onEditVehiclePress = (vehicleId: string) => {
+    navigation.navigate('EditVehicle', {vehicleId: vehicleId});
+  };
 
   return (
     <SafeAreaView style={CommonStyles.cutoutContainer}>
       <StatusBar backgroundColor={Colors.Dark1} />
       <FlatList<VehicleResponse>
-        style={CommonStyles.cutoutContent}
+        style={CommonStyles.cutoutStyle}
         contentContainerStyle={{gap: 16}}
         data={vehicles}
         keyExtractor={item => item.id}
@@ -85,13 +89,22 @@ export const VehicleItem = ({
           {vehicle.image !== null && (
             <Image source={{uri: vehicle.image}} style={styles.image} />
           )}
-          <TextView
-            variant={'bodyL'}
-            bold
-            ellipsizeMode={'tail'}
-            numberOfLines={1}>
-            {vehicle.name}
-          </TextView>
+          <View>
+            <TextView
+              variant={'bodyL'}
+              bold
+              ellipsizeMode={'tail'}
+              numberOfLines={1}>
+              {vehicle.registrationNumber}
+            </TextView>
+
+            <TextView
+              variant={'bodyL'}
+              ellipsizeMode={'tail'}
+              numberOfLines={1}>
+              {vehicle.name}
+            </TextView>
+          </View>
         </View>
 
         <View style={styles.vehicleActions}>
@@ -139,8 +152,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: 32,
-    height: 32,
+    width: 64,
+    height: 64,
     borderRadius: 4,
   },
 });

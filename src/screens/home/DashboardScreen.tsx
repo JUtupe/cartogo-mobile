@@ -10,8 +10,8 @@ export const DashboardScreen = () => {
       <StatusBar backgroundColor={Colors.Dark1} />
       <ScrollView
         overScrollMode={'never'}
-        style={CommonStyles.cutoutContent}
-        contentContainerStyle={{gap: 16, alignItems: 'center'}}>
+        style={CommonStyles.cutoutStyle}
+        contentContainerStyle={CommonStyles.cutoutContentContainer}>
         <TextView variant={'bodyM'}>Dashboard</TextView>
       </ScrollView>
     </SafeAreaView>
