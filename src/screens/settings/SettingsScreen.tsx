@@ -41,7 +41,7 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
     navigation.navigate('OrderHistory');
   };
   const onEditRentalPress = () => {
-    navigation.navigate('CreateRental');
+    navigation.navigate('EditRental');
   };
   const onManageEmployeesPress = () => {
     navigation.navigate('ManageEmployees');
