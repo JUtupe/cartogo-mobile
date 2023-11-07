@@ -11,6 +11,7 @@ import {TextView} from '../components/atoms/TextView';
 import {Button} from '../components/atoms/Button';
 import {acceptInvitation, deleteInvitation} from '../api/rental.api';
 import LoginWave from '../assets/images/login-wave.svg';
+import DeleteIcon from '../assets/icons/delete.svg';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NotMember'>;
 
@@ -63,12 +64,14 @@ export const NotMemberScreen = ({navigation}: Props) => {
                 <Button
                   title="Dołącz"
                   primary
+                  style={{flex: 1}}
                   onPress={() =>
                     onAcceptInvitationClick(pendingRentalInvitation.id)
                   }
                 />
                 <Button
-                  title="X"
+                  title=""
+                  icon={<DeleteIcon color={Colors.White} />}
                   variant={'error'}
                   primary
                   onPress={() =>

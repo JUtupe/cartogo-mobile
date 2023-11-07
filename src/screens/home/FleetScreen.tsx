@@ -1,19 +1,37 @@
 import {CommonStyles} from '../../util/styles';
-import React, {ScrollView, StatusBar} from 'react-native';
+import React, {FlatList, StatusBar} from 'react-native';
 import {Colors} from '../../util/colors';
-import {TextView} from '../../components/atoms/TextView';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useRental} from '../../context/Rental.hooks';
+import {VehicleResponse} from '../../api/responses';
+import {VehicleItem} from '../../components/molecules/VehicleItem';
+import {HomeStackParamList, RootStackParamList} from '../../navigation/screens';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export const FleetScreen = () => {
+type Props = NativeStackScreenProps<HomeStackParamList, 'Fleet'>;
+
+export const FleetScreen = ({navigation}: Props) => {
+  const {vehicles} = useRental();
+
+  const onVehicleLongPress = (vehicleId: string) => {
+    navigation.getParent()?.navigate('EditVehicle', {vehicleId: vehicleId});
+  };
+
   return (
     <SafeAreaView style={CommonStyles.cutoutContainer}>
       <StatusBar backgroundColor={Colors.Dark1} />
-      <ScrollView
-        overScrollMode={'never'}
+      <FlatList<VehicleResponse>
         style={CommonStyles.cutoutStyle}
-        contentContainerStyle={CommonStyles.cutoutContentContainer}>
-        <TextView variant={'bodyM'}>Fleet</TextView>
-      </ScrollView>
+        contentContainerStyle={{gap: 16}}
+        data={vehicles}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <VehicleItem
+            vehicle={item}
+            onLongPress={() => onVehicleLongPress(item.id)}
+          />
+        )}
+      />
     </SafeAreaView>
   );
 };

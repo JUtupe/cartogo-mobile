@@ -17,6 +17,7 @@ import {OrderHistoryScreen} from '../screens/settings/OrderHistoryScreen';
 import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
 import {CreateVehicleScreen} from '../screens/CreateVehicleScreen';
 import {EditVehicleScreen} from '../screens/EditVehicleScreen';
+import {PrivacyScreen} from '../screens/PrivacyScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,17 @@ export const RootNavigation = () => {
         name="Login"
         component={LoginScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Privacy"
+        component={PrivacyScreen}
+        options={{
+          title: 'Polityka prywatności',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
       />
     </>
   );
