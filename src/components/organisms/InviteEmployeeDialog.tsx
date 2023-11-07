@@ -8,23 +8,38 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {ControlledInput} from '../atoms/ControlledInput';
 import {Validations} from '../../util/validations';
 import {InvitationRequest} from '../../api/requests';
+import Toast from 'react-native-toast-message';
+import {useRental} from '../../context/Rental.hooks';
 
 interface InviteEmployeeDialogProps {
   isOpen: boolean;
   onDismiss: () => void;
-  onAddPress: (email: string) => void;
 }
 
 export const InviteEmployeeDialog: React.FC<InviteEmployeeDialogProps> = ({
   isOpen,
   onDismiss,
-  onAddPress,
 }) => {
+  const {inviteEmployee} = useRental();
   const {control, handleSubmit, reset} = useForm<InvitationRequest>();
+
   const onSubmit: SubmitHandler<InvitationRequest> = data => {
-    onAddPress(data.email);
-    reset({email: ''});
-    onDismiss();
+    inviteEmployee(data.email)
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'Zaproszenie zostało wysłane',
+        });
+
+        reset({email: ''});
+        onDismiss();
+      })
+      .catch(e => {
+        Toast.show({
+          type: 'error',
+          text1: 'Nie udało się wysłać zaproszenia',
+        });
+      });
   };
 
   const onClickOutside = () => {

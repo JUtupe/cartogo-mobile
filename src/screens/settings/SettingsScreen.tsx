@@ -22,6 +22,10 @@ import OrderIcon from '../../assets/icons/order.svg';
 import SignatureIcon from '../../assets/icons/signature.svg';
 import EditIcon from '../../assets/icons/edit.svg';
 import WarningIcon from '../../assets/icons/warning.svg';
+import {
+  ImperativeConfirmDialog,
+  ImperativeConfirmDialogRef,
+} from '../../components/molecules/ConfirmDialog';
 
 type SettingsScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -30,6 +34,7 @@ type SettingsScreenProps = NativeStackScreenProps<
 
 export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
   const {logout, isRentalOwner} = useAuth();
+  const closeRentalDialogRef = React.useRef<ImperativeConfirmDialogRef>(null);
 
   const onSetSignaturePress = () => {};
   const onOrderHistoryPress = () => {
@@ -44,7 +49,9 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
   const onManageFleetPress = () => {
     navigation.navigate('ManageFleet');
   };
-  const onCloseRentalPress = () => {};
+  const onCloseRentalPress = () => {
+    console.log('todo Close rental');
+  };
 
   return (
     <SafeAreaView style={CommonStyles.cutoutContainer}>
@@ -106,7 +113,7 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
                 title={'Zamknij wypożyczalnię'}
                 style={{backgroundColor: Colors.Error0}}
                 icon={<WarningIcon color={Colors.White} />}
-                onPress={onCloseRentalPress}
+                onPress={() => closeRentalDialogRef.current?.open()}
               />
             </>
           )}
@@ -114,6 +121,16 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
 
         <Button onPress={logout} title={'Wyloguj'} greedy variant={'error'} />
       </View>
+
+      <ImperativeConfirmDialog
+        ref={closeRentalDialogRef}
+        onConfirm={onCloseRentalPress}
+        confirmText={'Zamknij'}
+        title={'Czy na pewno chcesz zamknąć wypożyczalnię?'}
+        description={
+          'Tej akcji nie można cofnąć. Po zamknięciu wypożyczalni nie będzie można jej ponownie otworzyć.'
+        }
+      />
     </SafeAreaView>
   );
 };

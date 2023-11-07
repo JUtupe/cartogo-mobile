@@ -1,7 +1,7 @@
 import {CommonStyles} from '../../util/styles';
 import {FlatList, Image, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from '../../util/colors';
-import React, {useMemo, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextView} from '../../components/atoms/TextView';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -15,6 +15,10 @@ import {RentalInvitationResponse, UserResponse} from '../../api/responses';
 import {InviteEmployeeDialog} from '../../components/organisms/InviteEmployeeDialog';
 import Toast from 'react-native-toast-message';
 import {useRental} from '../../context/Rental.hooks';
+import {
+  ImperativeConfirmDialog,
+  ImperativeConfirmDialogRef,
+} from '../../components/molecules/ConfirmDialog';
 
 type ManageEmployeesProps = NativeStackScreenProps<
   RootStackParamList,
@@ -52,23 +56,6 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
     ],
     [rental?.invitations, rental?.users, user?.id],
   );
-
-  const onInviteEmployeePress = (email: string) => {
-    inviteEmployee(email)
-      .then(() => {
-        Toast.show({
-          type: 'success',
-          text1: 'Zaproszenie zostało wysłane',
-        });
-      })
-      .catch(e => {
-        console.error(e);
-        Toast.show({
-          type: 'error',
-          text1: 'Nie udało się wysłać zaproszenia',
-        });
-      });
-  };
 
   const onRemoveEmployeePress = (userId: string) => {
     deleteEmployee(userId).catch(e => {
@@ -126,7 +113,6 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
       <InviteEmployeeDialog
         isOpen={showInviteDialog}
         onDismiss={() => setShowInviteDialog(false)}
-        onAddPress={onInviteEmployeePress}
       />
     </SafeAreaView>
   );
@@ -143,6 +129,8 @@ export const EmployeeItem: React.FC<EmployeeItemProps> = ({
   name,
   onRemovePress,
 }) => {
+  const deleteVehicleDialog = useRef<ImperativeConfirmDialogRef>(null);
+
   return (
     <DropShadow style={CommonStyles.cardShadow}>
       <View style={styles.user}>
@@ -162,11 +150,19 @@ export const EmployeeItem: React.FC<EmployeeItemProps> = ({
         <Button
           title={''}
           icon={<DeleteIcon color={Colors.White} />}
-          onPress={onRemovePress}
+          onPress={() => deleteVehicleDialog.current?.open()}
           variant={'error'}
           primary
         />
       </View>
+
+      <ImperativeConfirmDialog
+        ref={deleteVehicleDialog}
+        onConfirm={onRemovePress}
+        confirmText={'Usuń'}
+        title={'Czy na pewno chcesz usunąć pracownika?'}
+        description={`${name} zostanie usunięty z wypożyczalni a jego aktualne zadania zostaną anulowane.`}
+      />
     </DropShadow>
   );
 };

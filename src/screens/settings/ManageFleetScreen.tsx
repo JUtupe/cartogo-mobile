@@ -5,7 +5,7 @@ import {FlatList, Image, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from '../../util/colors';
 import {TextView} from '../../components/atoms/TextView';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import React from 'react';
+import React, {useRef} from 'react';
 import {Button} from '../../components/atoms/Button';
 import PlusIcon from '../../assets/icons/plus.svg';
 import {useRental} from '../../context/Rental.hooks';
@@ -13,6 +13,10 @@ import {VehicleResponse} from '../../api/responses';
 import DeleteIcon from '../../assets/icons/delete.svg';
 import EditIcon from '../../assets/icons/edit.svg';
 import DropShadow from 'react-native-drop-shadow';
+import {
+  ImperativeConfirmDialog,
+  ImperativeConfirmDialogRef,
+} from '../../components/molecules/ConfirmDialog';
 
 type ManageFleetScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -27,7 +31,7 @@ export const ManageFleetScreen = ({navigation}: ManageFleetScreenProps) => {
   };
 
   const onRemoveVehiclePress = (vehicleId: string) => {
-    deleteVehicle(vehicleId); //todo show confirmation dialog
+    deleteVehicle(vehicleId);
   };
   const onEditVehiclePress = (vehicleId: string) => {
     navigation.navigate('EditVehicle', {vehicleId: vehicleId});
@@ -42,7 +46,7 @@ export const ManageFleetScreen = ({navigation}: ManageFleetScreenProps) => {
         data={vehicles}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <VehicleItem
+          <VehicleManageItem
             vehicle={item}
             onRemovePress={() => onRemoveVehiclePress(item.id)}
             onEditPress={() => onEditVehiclePress(item.id)}
@@ -67,11 +71,13 @@ interface VehicleItemProps {
   onEditPress: () => void;
 }
 
-const VehicleItem = ({
+const VehicleManageItem = ({
   vehicle,
   onEditPress,
   onRemovePress,
 }: VehicleItemProps) => {
+  const deleteVehicleDialog = useRef<ImperativeConfirmDialogRef>(null);
+
   return (
     <DropShadow style={CommonStyles.cardShadow}>
       <View style={styles.vehicle}>
@@ -100,19 +106,27 @@ const VehicleItem = ({
         <View style={styles.vehicleActions}>
           <Button
             title={''}
-            icon={<EditIcon color={Colors.White} />}
+            icon={<EditIcon color={Colors.Text} />}
             onPress={onEditPress}
             primary
           />
           <Button
             title={''}
             icon={<DeleteIcon color={Colors.White} />}
-            onPress={onRemovePress}
+            onPress={() => deleteVehicleDialog.current?.open()}
             variant={'error'}
             primary
           />
         </View>
       </View>
+
+      <ImperativeConfirmDialog
+        ref={deleteVehicleDialog}
+        onConfirm={onRemovePress}
+        confirmText={'Usuń'}
+        title={`Czy na pewno chcesz usunąć ${vehicle.name}?`}
+        description={`Pojazd ${vehicle.registrationNumber} zostanie na stałe usunięty z twojej floty.`}
+      />
     </DropShadow>
   );
 };
@@ -138,7 +152,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   vehicleActions: {
-    gap: 4,
+    gap: 8,
     flexDirection: 'row',
   },
   image: {
