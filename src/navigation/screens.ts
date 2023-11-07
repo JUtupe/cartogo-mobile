@@ -1,6 +1,7 @@
 import {NavigationProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
+  Privacy: undefined;
   Login: undefined;
   Home: undefined;
   NotMember: undefined;

@@ -3,6 +3,7 @@ import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import {TextView} from './TextView';
 import {Colors} from '../../util/colors';
 import DropShadow from 'react-native-drop-shadow';
+import {CommonStyles} from '../../util/styles';
 
 export interface ButtonProps {
   primary?: boolean;
@@ -33,15 +34,8 @@ export const Button: React.FC<ButtonProps> = ({
     <DropShadow
       style={[
         greedy && {alignSelf: 'stretch'},
-        {
-          shadowColor: shadowColor,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 0,
-        },
+        CommonStyles.cardShadow,
+        {shadowColor: shadowColor},
         style,
       ]}>
       <TouchableOpacity

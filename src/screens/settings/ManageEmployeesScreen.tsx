@@ -95,7 +95,7 @@ export const ManageEmployeesScreen = ({}: ManageEmployeesProps) => {
       <StatusBar backgroundColor={Colors.Dark1} />
       <FlatList<ListItem>
         style={CommonStyles.cutoutStyle}
-        contentContainerStyle={{gap: 16}}
+        contentContainerStyle={{gap: 16, paddingBottom: 16}}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
@@ -144,18 +144,7 @@ export const EmployeeItem: React.FC<EmployeeItemProps> = ({
   onRemovePress,
 }) => {
   return (
-    <DropShadow
-      style={[
-        {
-          shadowColor: Colors.Dark1,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 0,
-        },
-      ]}>
+    <DropShadow style={CommonStyles.cardShadow}>
       <View style={styles.user}>
         <View style={styles.userData}>
           {avatar !== null && (

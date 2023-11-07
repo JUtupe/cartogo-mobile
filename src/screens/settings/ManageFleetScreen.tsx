@@ -21,6 +21,7 @@ type ManageFleetScreenProps = NativeStackScreenProps<
 
 export const ManageFleetScreen = ({navigation}: ManageFleetScreenProps) => {
   const {vehicles, deleteVehicle} = useRental();
+
   const onAddVehiclePress = () => {
     navigation.navigate('CreateVehicle');
   };
@@ -66,24 +67,13 @@ interface VehicleItemProps {
   onEditPress: () => void;
 }
 
-export const VehicleItem = ({
+const VehicleItem = ({
   vehicle,
   onEditPress,
   onRemovePress,
 }: VehicleItemProps) => {
   return (
-    <DropShadow
-      style={[
-        {
-          shadowColor: Colors.Dark1,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 0,
-        },
-      ]}>
+    <DropShadow style={CommonStyles.cardShadow}>
       <View style={styles.vehicle}>
         <View style={styles.vehicleData}>
           {vehicle.image !== null && (

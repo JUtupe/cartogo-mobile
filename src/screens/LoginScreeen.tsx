@@ -39,7 +39,9 @@ export const LoginScreen = ({navigation}: Props) => {
       });
   };
 
-  const onPrivacyPolicyClick = () => {};
+  const onPrivacyPolicyClick = () => {
+    navigation.navigate('Privacy');
+  };
 
   return (
     <SafeAreaView style={CommonStyles.container}>

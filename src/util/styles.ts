@@ -82,4 +82,14 @@ export const CommonStyles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 32,
   },
+  cardShadow: {
+    shadowColor: Colors.Dark1,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    marginBottom: 2,
+  },
 });
