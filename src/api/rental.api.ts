@@ -12,9 +12,12 @@ export const createRental = async (
 export const editRental = async (
   rental: RentalRequest,
 ): Promise<RentalResponse> => {
-  return await axiosInstance
-    .put<RentalResponse>('/v1/rentals/@me', rental)
-    .then();
+  const response = await axiosInstance.put<RentalResponse>(
+    '/v1/rentals/@me',
+    rental,
+  );
+
+  return Promise.resolve(response.data);
 };
 
 export const getRental = async (): Promise<RentalResponse> => {

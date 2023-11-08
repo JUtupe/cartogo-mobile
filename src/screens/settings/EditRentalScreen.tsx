@@ -19,6 +19,10 @@ export const EditRentalScreen = ({navigation}: Props) => {
   const onSubmit: SubmitHandler<RentalRequest> = data => {
     editRental(data)
       .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'Wypożyczalnia została zaktualizowana.',
+        });
         navigation.goBack();
       })
       .catch(() => {
