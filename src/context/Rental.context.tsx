@@ -2,6 +2,7 @@ import {RentalResponse, VehicleResponse} from '../api/responses';
 import React, {createContext, useEffect, useState} from 'react';
 import {
   createRental as apiCreateRental,
+  editRental as apiEditRental,
   createVehicle as apiCreateVehicle,
   editVehicle as apiEditVehicle,
   getVehicles as apiGetVehicles,
@@ -19,6 +20,7 @@ interface RentalContextProps {
   vehicles: VehicleResponse[];
   initRental: (rental: RentalResponse) => void;
   createRental: (rental: RentalRequest) => Promise<RentalResponse>;
+  editRental: (rental: RentalRequest) => Promise<RentalResponse>;
   fetchVehicles: () => Promise<void>;
   createVehicle: (
     vehicle: VehicleRequest,
@@ -40,6 +42,7 @@ export const RentalContext = createContext<RentalContextProps>({
   vehicles: [],
   initRental: () => {},
   createRental: () => Promise.reject(),
+  editRental: () => Promise.reject(),
   fetchVehicles: () => Promise.reject(),
   createVehicle: () => Promise.reject(),
   editVehicle: () => Promise.reject(),
@@ -92,6 +95,18 @@ export const RentalProvider = ({children}: Props) => {
   const createRental = async (rental: RentalRequest) => {
     try {
       const savedRental = await apiCreateRental(rental);
+
+      initRental(savedRental);
+
+      return Promise.resolve(savedRental);
+    } catch (error: any) {
+      return Promise.reject(error.message);
+    }
+  };
+
+  const editRental = async (rental: RentalRequest) => {
+    try {
+      const savedRental = await apiEditRental(rental);
 
       initRental(savedRental);
 
@@ -218,6 +233,7 @@ export const RentalProvider = ({children}: Props) => {
         vehicles: vehicles,
         inviteEmployee: inviteEmployee,
         createRental: createRental,
+        editRental: editRental,
         createVehicle: createVehicle,
         initRental: initRental,
         fetchVehicles: fetchVehicles,

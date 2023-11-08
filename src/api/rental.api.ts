@@ -9,6 +9,17 @@ export const createRental = async (
   return await axiosInstance.post<RentalResponse>('/v1/rentals', rental).then();
 };
 
+export const editRental = async (
+  rental: RentalRequest,
+): Promise<RentalResponse> => {
+  const response = await axiosInstance.put<RentalResponse>(
+    '/v1/rentals/@me',
+    rental,
+  );
+
+  return Promise.resolve(response.data);
+};
+
 export const getRental = async (): Promise<RentalResponse> => {
   const response = await axiosInstance.get<RentalResponse>('/v1/rentals/@me');
 
