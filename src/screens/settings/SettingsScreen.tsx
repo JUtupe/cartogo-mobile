@@ -13,7 +13,7 @@ import {TextView} from '../../components/atoms/TextView';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAuth} from '../../context/Auth.hooks';
 import {Button} from '../../components/atoms/Button';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/screens';
 import FleetIcon from '../../assets/icons/fleet.svg';
@@ -26,6 +26,7 @@ import {
   ImperativeConfirmDialog,
   ImperativeConfirmDialogRef,
 } from '../../components/molecules/ConfirmDialog';
+import {SignatureDialog} from '../../components/organisms/SignatureDialog';
 
 type SettingsScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -34,9 +35,12 @@ type SettingsScreenProps = NativeStackScreenProps<
 
 export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
   const {logout, isRentalOwner} = useAuth();
-  const closeRentalDialogRef = React.useRef<ImperativeConfirmDialogRef>(null);
+  const closeRentalDialogRef = useRef<ImperativeConfirmDialogRef>(null);
+  const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false);
 
-  const onSetSignaturePress = () => {};
+  const onSetSignaturePress = () => {
+    setIsSignatureDialogOpen(true);
+  };
   const onOrderHistoryPress = () => {
     navigation.navigate('OrderHistory');
   };
@@ -121,6 +125,17 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
 
         <Button onPress={logout} title={'Wyloguj'} greedy variant={'error'} />
       </View>
+
+      {isSignatureDialogOpen && (
+        <SignatureDialog
+          onDismiss={() => {
+            setIsSignatureDialogOpen(false);
+          }}
+          onSignatureSaved={() => {
+            setIsSignatureDialogOpen(false);
+          }}
+        />
+      )}
 
       <ImperativeConfirmDialog
         ref={closeRentalDialogRef}
