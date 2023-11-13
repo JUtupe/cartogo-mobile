@@ -99,7 +99,6 @@ export const editVehicle = async (
   image?: FormImage,
 ): Promise<VehicleResponse> => {
   const formData = new FormData();
-
   formData.append('form', JSON.stringify(request));
   if (image) {
     formData.append('image', {

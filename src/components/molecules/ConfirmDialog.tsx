@@ -11,7 +11,8 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   confirmText?: string;
   title: string;
-  description: string;
+  description?: string;
+  content?: React.ReactNode;
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
@@ -21,13 +22,18 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmText = 'Potwierdź',
   title,
   description,
+  content,
 }) => {
   return (
     <Dialog isOpen={isOpen} onDismiss={onDismiss}>
       <TextView variant={'headingS'} bold style={styles.text}>
         {title}
       </TextView>
-      <TextView style={styles.text}>{description}</TextView>
+
+      {description !== undefined && (
+        <TextView style={styles.text}>{description}</TextView>
+      )}
+      {content !== undefined && content}
 
       <View style={styles.buttons}>
         <Button onPress={onDismiss} title={'Anuluj'} style={{flex: 1}} />
@@ -55,26 +61,33 @@ const styles = StyleSheet.create({
 });
 
 export interface ImperativeConfirmDialogRef {
-  open: () => void;
+  open: (props?: ConfirmDialogProps) => void;
 }
 
 export const ImperativeConfirmDialog = React.forwardRef<
   ImperativeConfirmDialogRef,
-  Omit<ConfirmDialogProps, 'isOpen' | 'onDismiss'>
+  Omit<ConfirmDialogProps, 'isOpen' | 'onDismiss'> | {}
 >((props, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const propsRef = React.useRef(props || {title: '', onConfirm: () => {}});
 
   React.useImperativeHandle(
     ref,
     () => ({
-      open: () => setIsOpen(true),
+      open: (props?: ConfirmDialogProps) => {
+        if (props !== undefined) {
+          propsRef.current = props;
+        }
+
+        setIsOpen(true);
+      },
     }),
     [],
   );
 
   return (
     <ConfirmDialog
-      {...props}
+      {...propsRef.current}
       isOpen={isOpen}
       onDismiss={() => setIsOpen(false)}
     />
