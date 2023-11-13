@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {Button} from '../atoms/Button';
 import React, {useRef, useState} from 'react';
 import {Colors} from '../../util/colors';
@@ -8,7 +8,6 @@ import {
   ImperativeConfirmDialog,
   ImperativeConfirmDialogRef,
 } from '../molecules/ConfirmDialog';
-import {TextView} from '../atoms/TextView';
 
 interface SignatureDialogProps {
   onDismiss: () => void;
@@ -21,6 +20,7 @@ export const SignatureDialog: React.FC<SignatureDialogProps> = ({
 }) => {
   const signatureRef = useRef<SignatureCapture>(null);
   const confirmDialogRef = useRef<ImperativeConfirmDialogRef>(null);
+  const signaturePath = useRef<string | null>(null);
   const [viewMode, setViewMode] = useState<'portrait' | 'landscape'>(
     'landscape',
   );
@@ -42,15 +42,36 @@ export const SignatureDialog: React.FC<SignatureDialogProps> = ({
   };
 
   const onDonePress = () => {
-    // setViewMode('portrait');
     signatureRef?.current?.saveImage();
   };
 
   const onImageSaved = (result: {pathName: string}) => {
-    console.log(result);
-    // onSignatureSaved(result);
-
-    confirmDialogRef.current?.open();
+    Promise.resolve()
+      .then(() => {
+        signaturePath.current = result.pathName;
+      })
+      .then(new Promise(resolve => setTimeout(resolve, 500)))
+      .then(() => {
+        confirmDialogRef.current?.open({
+          title: 'Czy podpis się zgadza?',
+          content: (
+            <Image
+              source={{uri: result.pathName + '?' + new Date()}} // date to prevent caching
+              style={styles.preview}
+            />
+          ),
+          onConfirm: () => {
+            Promise.resolve()
+              .then(() => {
+                setViewMode('portrait');
+              })
+              .then(new Promise(resolve => setTimeout(resolve, 500)))
+              .then(() => {
+                onSignatureSaved(result);
+              });
+          },
+        });
+      });
   };
 
   return (
@@ -63,7 +84,10 @@ export const SignatureDialog: React.FC<SignatureDialogProps> = ({
             backgroundColor={Colors.Transparent}
             viewMode={viewMode}
             showNativeButtons={false}
-            onSaveEvent={onImageSaved}
+            onSaveEvent={result =>
+              onImageSaved({pathName: 'file://' + result.pathName})
+            }
+            saveImageFileInExtStorage={true}
           />
         </View>
 
@@ -74,12 +98,7 @@ export const SignatureDialog: React.FC<SignatureDialogProps> = ({
         </View>
       </View>
 
-      <ImperativeConfirmDialog
-        ref={confirmDialogRef}
-        onConfirm={() => {}}
-        title={'Czy podpis się zgadza?'}
-        content={<TextView variant={'bodyM'}>Test</TextView>} //todo replace with signature image
-      />
+      <ImperativeConfirmDialog ref={confirmDialogRef} />
     </Portal>
   );
 };
@@ -97,10 +116,19 @@ const styles = StyleSheet.create({
   },
   touchpadContainer: {
     flex: 1,
+    margin: 1,
     borderRadius: 16,
     backgroundColor: Colors.Light0,
     borderColor: Colors.Dark1,
     borderWidth: 1,
+  },
+  preview: {
+    height: 120,
+    width: '100%',
+    backgroundColor: Colors.Light0,
+    borderRadius: 8,
+    padding: 8,
+    objectFit: 'contain',
   },
   touchpad: {
     flex: 1,

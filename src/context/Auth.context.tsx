@@ -14,6 +14,7 @@ import {
 } from '../api/axiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KEY_RENTAL} from './Rental.context';
+import {setSignature} from '../api/user.api';
 
 interface AuthContextProps {
   user: UserResponse | null;
@@ -25,6 +26,7 @@ interface AuthContextProps {
     isRentalOwner: boolean,
     isMemberOfAnyRental: boolean,
   ) => Promise<void>;
+  setUserSignature: (signature: string) => Promise<void>;
   login: () => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
@@ -34,8 +36,9 @@ export const AuthContext = createContext<AuthContextProps>({
   pendingRentalInvitation: null,
   isRentalOwner: false,
   isMemberOfAnyRental: false,
-  updateRentalState: () => Promise.reject(),
   init: () => Promise.reject(),
+  updateRentalState: () => Promise.reject(),
+  setUserSignature: () => Promise.reject(),
   login: () => Promise.reject(),
   logout: () => Promise.reject(),
 });
@@ -103,6 +106,18 @@ export const AuthProvider = ({children}: Props) => {
     setMemberOfAnyRental(isMemberOfAnyRental);
   };
 
+  const setUserSignature = async (signaturePath: string) => {
+    if (!user) {
+      return Promise.reject('No user');
+    }
+
+    setSignature({
+      uri: signaturePath,
+      type: 'image/png',
+      name: 'signature.png',
+    });
+  };
+
   const login = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -138,8 +153,9 @@ export const AuthProvider = ({children}: Props) => {
         pendingRentalInvitation,
         isRentalOwner,
         isMemberOfAnyRental,
-        updateRentalState,
         init,
+        updateRentalState,
+        setUserSignature,
         login,
         logout,
       }}>

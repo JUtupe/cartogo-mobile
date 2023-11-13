@@ -34,7 +34,7 @@ type SettingsScreenProps = NativeStackScreenProps<
 >;
 
 export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
-  const {logout, isRentalOwner} = useAuth();
+  const {logout, isRentalOwner, setUserSignature} = useAuth();
   const closeRentalDialogRef = useRef<ImperativeConfirmDialogRef>(null);
   const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false);
 
@@ -131,7 +131,9 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
           onDismiss={() => {
             setIsSignatureDialogOpen(false);
           }}
-          onSignatureSaved={() => {
+          onSignatureSaved={signature => {
+            setUserSignature(signature.pathName);
+
             setIsSignatureDialogOpen(false);
           }}
         />

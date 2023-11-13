@@ -61,26 +61,33 @@ const styles = StyleSheet.create({
 });
 
 export interface ImperativeConfirmDialogRef {
-  open: () => void;
+  open: (props?: ConfirmDialogProps) => void;
 }
 
 export const ImperativeConfirmDialog = React.forwardRef<
   ImperativeConfirmDialogRef,
-  Omit<ConfirmDialogProps, 'isOpen' | 'onDismiss'>
+  Omit<ConfirmDialogProps, 'isOpen' | 'onDismiss'> | {}
 >((props, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const propsRef = React.useRef(props || {title: '', onConfirm: () => {}});
 
   React.useImperativeHandle(
     ref,
     () => ({
-      open: () => setIsOpen(true),
+      open: (props?: ConfirmDialogProps) => {
+        if (props !== undefined) {
+          propsRef.current = props;
+        }
+
+        setIsOpen(true);
+      },
     }),
     [],
   );
 
   return (
     <ConfirmDialog
-      {...props}
+      {...propsRef.current}
       isOpen={isOpen}
       onDismiss={() => setIsOpen(false)}
     />
