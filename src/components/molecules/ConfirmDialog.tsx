@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dialog} from './Dialog';
 import {TextView} from '../atoms/TextView';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import {Button} from '../atoms/Button';
 import {Colors} from '../../util/colors';
 
@@ -13,6 +13,7 @@ interface ConfirmDialogProps {
   title: string;
   description?: string;
   content?: React.ReactNode;
+  style?: ViewStyle;
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
@@ -23,9 +24,10 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   title,
   description,
   content,
+  style,
 }) => {
   return (
-    <Dialog isOpen={isOpen} onDismiss={onDismiss}>
+    <Dialog isOpen={isOpen} onDismiss={onDismiss} contentStyle={style}>
       <TextView variant={'headingS'} bold style={styles.text}>
         {title}
       </TextView>

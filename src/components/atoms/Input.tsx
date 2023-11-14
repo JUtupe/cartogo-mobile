@@ -22,7 +22,9 @@ export interface InputProps {
   onBlur?: () => void;
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
+  inputStyle?: StyleProp<TextStyle>;
   greedy?: boolean;
+  multiline?: boolean;
   keyboardType?: KeyboardType;
 }
 
@@ -35,7 +37,9 @@ export const Input = ({
   onBlur,
   style,
   labelStyle,
+  inputStyle,
   greedy = true,
+  multiline = false,
   keyboardType,
 }: InputProps) => {
   return (
@@ -56,11 +60,12 @@ export const Input = ({
       )}
       <DropShadow style={styles.shadow}>
         <TextInput
-          style={[TextStyles.bodyL, styles.input]}
+          style={[TextStyles.bodyL, styles.input, inputStyle]}
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           onBlur={onBlur}
+          multiline={multiline}
           placeholder={placeholder}
           placeholderTextColor={Colors.Gray}
         />

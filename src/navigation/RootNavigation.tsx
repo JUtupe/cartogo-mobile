@@ -18,6 +18,10 @@ import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
 import {CreateVehicleScreen} from '../screens/CreateVehicleScreen';
 import {EditVehicleScreen} from '../screens/EditVehicleScreen';
 import {PrivacyScreen} from '../screens/PrivacyScreen';
+import {CreateOrderScreen} from '../screens/CreateOrderScreen';
+import {EditOrderScreen} from '../screens/EditOrderScreen';
+import {DeliveryFormScreen} from '../screens/DeliveryFormScreen';
+import {ReceptionFormScreen} from '../screens/ReceptionFormScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -117,6 +121,50 @@ export const RootNavigation = () => {
         component={EditVehicleScreen}
         options={{
           headerTitle: 'Edycja pojazdu',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="CreateOrder"
+        component={CreateOrderScreen}
+        options={{
+          headerTitle: 'Dodawanie zlecenia',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="EditOrder"
+        component={EditOrderScreen}
+        options={{
+          headerTitle: 'Edycja zlecenia',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="DeliveryForm"
+        component={DeliveryFormScreen}
+        options={{
+          headerTitle: 'Protokół wydania pojazdu',
+          headerStyle: {
+            backgroundColor: Colors.Dark1,
+          },
+          headerTintColor: Colors.White,
+        }}
+      />
+      <Stack.Screen
+        name="ReceptionForm"
+        component={ReceptionFormScreen}
+        options={{
+          headerTitle: 'Protokół odbioru pojazdu',
           headerStyle: {
             backgroundColor: Colors.Dark1,
           },

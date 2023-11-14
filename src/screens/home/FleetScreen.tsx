@@ -1,5 +1,5 @@
 import {CommonStyles} from '../../util/styles';
-import React, {FlatList, StatusBar} from 'react-native';
+import React, {FlatList, StatusBar, View} from 'react-native';
 import {Colors} from '../../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRental} from '../../context/Rental.hooks';
@@ -24,8 +24,8 @@ export const FleetScreen = ({navigation}: Props) => {
       <StatusBar backgroundColor={Colors.Dark1} />
       <FlatList<VehicleResponse>
         style={CommonStyles.cutoutStyle}
-        contentContainerStyle={{gap: 16}}
-        data={vehicles}
+        contentContainerStyle={{gap: 16, flexGrow: 1, paddingBottom: 32}}
+        data={[...vehicles, ...vehicles, ...vehicles, ...vehicles, ...vehicles]}
         ListEmptyComponent={() => (
           <EmptyState
             icon={<NotAMember width={100} height={100} />}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import {Colors} from '../../util/colors';
 import {Portal} from '@gorhom/portal';
 
@@ -7,12 +7,14 @@ type DialogProps = {
   isOpen: boolean;
   onDismiss?: () => void;
   children: React.ReactNode;
+  contentStyle?: ViewStyle;
 };
 
 export const Dialog: React.FC<DialogProps> = ({
   isOpen,
   onDismiss,
   children,
+  contentStyle,
 }) => {
   if (!isOpen) {
     return null;
@@ -25,7 +27,7 @@ export const Dialog: React.FC<DialogProps> = ({
         onPress={onDismiss}
         activeOpacity={1}>
         <TouchableOpacity
-          style={styles.content}
+          style={[styles.content, contentStyle]}
           onPress={e => e.preventDefault()}
           activeOpacity={1}>
           {children}

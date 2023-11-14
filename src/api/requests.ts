@@ -1,3 +1,20 @@
+export interface OrderRequest {
+  number: string;
+  amount: number;
+  paymentMethod: 'CASH' | 'CARD' | 'TRANSFER';
+  deliveryDate: Date;
+  receptionDate: Date;
+  customer: {
+    firstName: string;
+    lastName: string;
+    address: {
+      postalCode: string;
+      street: string;
+      city: string;
+    };
+  };
+}
+
 export interface RentalRequest {
   name: string;
   nip: string;
