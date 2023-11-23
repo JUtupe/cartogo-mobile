@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KEY_RENTAL} from './Rental.context';
 import {setSignature} from '../api/user.api';
+import {deleteInvitation} from '../api/rental.api';
 
 interface AuthContextProps {
   user: UserResponse | null;
@@ -27,6 +28,7 @@ interface AuthContextProps {
     isMemberOfAnyRental: boolean,
   ) => Promise<void>;
   setUserSignature: (signature: string) => Promise<void>;
+  rejectInvitation: (invitationId: string) => Promise<void>;
   login: () => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
@@ -39,6 +41,7 @@ export const AuthContext = createContext<AuthContextProps>({
   init: () => Promise.reject(),
   updateRentalState: () => Promise.reject(),
   setUserSignature: () => Promise.reject(),
+  rejectInvitation: () => Promise.reject(),
   login: () => Promise.reject(),
   logout: () => Promise.reject(),
 });
@@ -118,6 +121,18 @@ export const AuthProvider = ({children}: Props) => {
     });
   };
 
+  const rejectInvitation = async (invitationId: string) => {
+    if (!user) {
+      return Promise.reject('No user');
+    }
+
+    await deleteInvitation(invitationId);
+
+    setPendingRentalInvitation(null);
+
+    return Promise.resolve();
+  };
+
   const login = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -156,6 +171,7 @@ export const AuthProvider = ({children}: Props) => {
         init,
         updateRentalState,
         setUserSignature,
+        rejectInvitation,
         login,
         logout,
       }}>

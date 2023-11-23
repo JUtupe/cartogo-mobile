@@ -9,14 +9,21 @@ import {Colors} from '../util/colors';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
 import {Button} from '../components/atoms/Button';
-import {acceptInvitation, deleteInvitation} from '../api/rental.api';
+import {acceptInvitation} from '../api/rental.api';
 import LoginWave from '../assets/images/login-wave.svg';
 import DeleteIcon from '../assets/icons/delete.svg';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NotMember'>;
 
 export const NotMemberScreen = ({navigation}: Props) => {
-  const {user, pendingRentalInvitation, logout, updateRentalState} = useAuth();
+  const {
+    user,
+    pendingRentalInvitation,
+    logout,
+    updateRentalState,
+    rejectInvitation,
+  } = useAuth();
 
   const onAcceptInvitationClick = (invitationId: string) => {
     acceptInvitation(invitationId).then(() => {});
@@ -25,7 +32,21 @@ export const NotMemberScreen = ({navigation}: Props) => {
   };
 
   const onCancelInvitationClick = (invitationId: string) => {
-    deleteInvitation(invitationId).then(() => {});
+    rejectInvitation(invitationId)
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'Sukces',
+          text2: 'Zaproszenie zostało usunięte',
+        });
+      })
+      .catch(() => {
+        Toast.show({
+          type: 'error',
+          text1: 'Wystąpił błąd',
+          text2: 'Nie udało się usunąć zaproszenia',
+        });
+      });
   };
 
   const onCreateNewRentalClick = () => {
@@ -57,9 +78,10 @@ export const NotMemberScreen = ({navigation}: Props) => {
         {pendingRentalInvitation && (
           <>
             <View style={styles.invitationSection}>
-              <TextView>
+              <TextView variant={'headingS'} bold style={{textAlign: 'center'}}>
                 zaproszenie do {pendingRentalInvitation.rentalName}
               </TextView>
+
               <View style={styles.buttons}>
                 <Button
                   title="Dołącz"
@@ -139,7 +161,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
     width: '100%',
   },
   buttons: {

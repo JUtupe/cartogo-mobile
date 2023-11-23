@@ -29,10 +29,33 @@ export interface VehicleResponse {
   name: string;
   image?: string;
   state: {
+    location:
+      | 'RENTAL'
+      | 'CUSTOMER'
+      | 'IN_DELIVERY'
+      | 'IN_RECEPTION'
+      | 'SERVICE';
     mileage: number;
     fuelLevel: number;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
   };
+}
+
+export interface OrderResponse {
+  id: string;
+  number: string;
+  amount: number;
+  status: 'PENDING' | 'PAID' | 'SERVICE';
+  paymentMethod: 'CASH' | 'CARD' | 'TRANSFER';
+  deliveryDate: string;
+  receptionDate: string;
+  customer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+  };
+  vehicle: VehicleResponse;
 }
 
 export interface RentalInvitationResponse {

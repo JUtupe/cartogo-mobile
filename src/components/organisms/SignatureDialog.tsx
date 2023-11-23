@@ -60,6 +60,7 @@ export const SignatureDialog: React.FC<SignatureDialogProps> = ({
               style={styles.preview}
             />
           ),
+          style: {maxWidth: 400, alignSelf: 'center'},
           onConfirm: () => {
             Promise.resolve()
               .then(() => {

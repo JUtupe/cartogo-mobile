@@ -6,12 +6,14 @@ interface EmptyStateProps {
   icon: React.ReactNode;
   title: string;
   description: string;
+  children?: React.ReactNode;
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
   icon,
   title,
   description,
+  children,
 }) => {
   return (
     <View style={styles.container}>
@@ -24,6 +26,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
         <TextView>{description}</TextView>
       </View>
+
+      {children}
     </View>
   );
 };

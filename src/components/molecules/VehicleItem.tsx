@@ -73,7 +73,6 @@ export const VehicleItem: React.FC<VehicleItemProps> = ({
 
 const styles = StyleSheet.create({
   vehicle: {
-    flex: 1,
     gap: 8,
     flexDirection: 'column',
     backgroundColor: Colors.Light0,

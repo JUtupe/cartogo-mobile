@@ -39,10 +39,7 @@ export const RentalForm: React.FC<RentalFormProps> = ({
           control={control}
           placeholder={'00-000'}
           rules={{
-            pattern: {
-              value: /^\d{2}-\d{3}$/,
-              message: 'Kod pocztowy musi być w formacie 00-000',
-            },
+            pattern: Validations.postalCode,
             required: Validations.required,
           }}
           label={'Kod pocztowy'}

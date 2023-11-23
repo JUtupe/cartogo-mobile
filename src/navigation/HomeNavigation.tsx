@@ -20,7 +20,7 @@ import {getMe} from '../api/auth.api';
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 export const HomeNavigation = () => {
-  const {initRental, fetchVehicles} = useRental();
+  const {initRental, fetchVehicles, fetchOrders} = useRental();
   const {init, logout} = useAuth();
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export const HomeNavigation = () => {
         if (authResponse.rental) {
           await initRental(authResponse.rental);
           await fetchVehicles();
+          await fetchOrders();
         }
       } catch (e: any) {
         console.log(e);
@@ -99,28 +100,30 @@ export const HomeNavigation = () => {
 
 const TabBar = (props: BottomTabBarProps) => {
   return (
-    <View style={styles.container}>
-      {props.state.routes.map(route => {
-        const icon = props.descriptors[route.key].options.tabBarIcon;
-        const active =
-          props.state.routes[props.state.index].name === route.name;
+    <View style={{backgroundColor: Colors.Light0}}>
+      <View style={styles.container}>
+        {props.state.routes.map(route => {
+          const icon = props.descriptors[route.key].options.tabBarIcon;
+          const active =
+            props.state.routes[props.state.index].name === route.name;
 
-        return (
-          <TouchableOpacity
-            key={route.key}
-            onPress={() => {
-              props.navigation.navigate(route.name);
-            }}
-            style={styles.item}>
-            {icon &&
-              icon({
-                focused: active,
-                color: active ? Colors.Primary0 : Colors.Primary1,
-                size: active ? 24 : 20,
-              })}
-          </TouchableOpacity>
-        );
-      })}
+          return (
+            <TouchableOpacity
+              key={route.key}
+              onPress={() => {
+                props.navigation.navigate(route.name);
+              }}
+              style={styles.item}>
+              {icon &&
+                icon({
+                  focused: active,
+                  color: active ? Colors.Primary0 : Colors.Primary1,
+                  size: active ? 24 : 20,
+                })}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };

@@ -1,4 +1,5 @@
 import {
+  Image,
   ScrollView,
   StatusBar,
   StyleProp,
@@ -34,7 +35,7 @@ type SettingsScreenProps = NativeStackScreenProps<
 >;
 
 export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
-  const {logout, isRentalOwner, setUserSignature} = useAuth();
+  const {logout, isRentalOwner, setUserSignature, user} = useAuth();
   const closeRentalDialogRef = useRef<ImperativeConfirmDialogRef>(null);
   const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false);
 
@@ -72,9 +73,18 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
             flex: 1,
             flexDirection: 'column',
           }}>
-          <TextView variant={'bodyM'} bold>
-            Ustawienia użytkownika
-          </TextView>
+          <View style={{flexDirection: 'row', gap: 16, alignItems: 'center'}}>
+            {user?.avatar !== null && (
+              <Image
+                source={{uri: user?.avatar}}
+                style={{width: 48, height: 48, borderRadius: 24}}
+              />
+            )}
+
+            <TextView variant={'bodyL'} bold>
+              Witaj, {user?.name}
+            </TextView>
+          </View>
 
           <SettingItem
             title={'Ustaw swój podpis'}
