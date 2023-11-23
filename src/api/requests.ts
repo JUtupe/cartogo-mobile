@@ -2,16 +2,14 @@ export interface OrderRequest {
   number: string;
   amount: number;
   paymentMethod: 'CASH' | 'CARD' | 'TRANSFER';
-  deliveryDate: Date;
-  receptionDate: Date;
+  deliveryDate: string;
+  receptionDate: string;
+  vehicleId: string;
   customer: {
     firstName: string;
     lastName: string;
-    address: {
-      postalCode: string;
-      street: string;
-      city: string;
-    };
+    email: string;
+    phoneNumber: string;
   };
 }
 

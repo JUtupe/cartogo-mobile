@@ -9,7 +9,7 @@ import {Colors} from '../util/colors';
 import {CommonStyles} from '../util/styles';
 import {TextView} from '../components/atoms/TextView';
 import {Button} from '../components/atoms/Button';
-import {acceptInvitation, deleteInvitation} from '../api/rental.api';
+import {acceptInvitation} from '../api/rental.api';
 import LoginWave from '../assets/images/login-wave.svg';
 import DeleteIcon from '../assets/icons/delete.svg';
 import Toast from 'react-native-toast-message';

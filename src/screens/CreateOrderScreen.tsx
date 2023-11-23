@@ -11,14 +11,47 @@ import {useRental} from '../context/Rental.hooks';
 import {useAuth} from '../context/Auth.hooks';
 import {OrderRequest, RentalRequest} from '../api/requests';
 import {RentalForm} from '../components/organisms/RentalForm';
-import {OrderForm} from '../components/organisms/OrderForm';
+import {OrderForm, OrderFormData} from '../components/organisms/OrderForm';
 import dayjs from 'dayjs';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateOrder'>;
 
-export const CreateOrderScreen = ({}: Props) => {
-  const onSubmit: SubmitHandler<OrderRequest> = data => {
-    //todo
+export const CreateOrderScreen = ({navigation}: Props) => {
+  const {createOrder} = useRental();
+
+  const onSubmit: SubmitHandler<OrderFormData> = data => {
+    const request: OrderRequest = {
+      number: data.number,
+      amount: data.amount,
+      paymentMethod: data.paymentMethod,
+      vehicleId: data.vehicleId.id,
+      deliveryDate: dayjs(data.deliveryDate).toISOString(),
+      receptionDate: dayjs(data.receptionDate).toISOString(),
+      customer: {
+        firstName: data.customer.firstName,
+        lastName: data.customer.lastName,
+        email: data.customer.email,
+        phoneNumber: data.customer.phoneNumber,
+      },
+    };
+    createOrder(request)
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'Zlecenie zostało utworzone.',
+        });
+
+        navigation.goBack();
+      })
+      .catch(e => {
+        console.log(e);
+
+        Toast.show({
+          type: 'error',
+          text1: 'Nie udało się utworzyć zlecenia.',
+          text2: 'Sprawdź poprawność formularza lub spróbuj ponownie później.',
+        });
+      });
   };
 
   return (

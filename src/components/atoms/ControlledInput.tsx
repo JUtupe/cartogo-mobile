@@ -10,12 +10,14 @@ export type ControlledInputProps = {
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+  mapValue?: (value: any) => any;
 } & Omit<InputProps, 'onChangeText' | 'value'>;
 
 export const ControlledInput = ({
   name,
   control,
   rules,
+  mapValue,
   ...rest
 }: ControlledInputProps) => {
   const {field, fieldState} = useController({control, name, rules});
@@ -23,7 +25,7 @@ export const ControlledInput = ({
   return (
     <Input
       {...rest}
-      value={field.value}
+      value={mapValue ? mapValue(field.value) : field.value}
       onChangeText={field.onChange}
       onBlur={field.onBlur}
       error={fieldState.error?.message}

@@ -1,5 +1,5 @@
 import {CommonStyles} from '../../util/styles';
-import React, {FlatList, ScrollView, StatusBar, View} from 'react-native';
+import React, {FlatList, StatusBar} from 'react-native';
 import {Colors} from '../../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {EmptyState} from '../../components/molecules/EmptyState';
@@ -8,17 +8,19 @@ import {Button} from '../../components/atoms/Button';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../navigation/screens';
 import PlusIcon from '../../assets/icons/plus.svg';
-import {VehicleResponse} from '../../api/responses';
+import {OrderResponse} from '../../api/responses';
+import {useRental} from '../../context/Rental.hooks';
+import {OrderItem} from '../../components/molecules/OrderItem';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Orders'>;
 
 export const OrdersScreen = ({navigation}: Props) => {
-  const orders: any[] = [];
+  const {orders} = useRental();
 
   return (
     <SafeAreaView style={CommonStyles.cutoutContainer}>
       <StatusBar backgroundColor={Colors.Dark1} />
-      <FlatList<VehicleResponse>
+      <FlatList<OrderResponse>
         style={CommonStyles.cutoutStyle}
         contentContainerStyle={{gap: 16, display: 'flex', height: '100%'}}
         data={orders}
@@ -37,8 +39,29 @@ export const OrdersScreen = ({navigation}: Props) => {
             />
           </EmptyState>
         )}
+        ListFooterComponent={
+          orders.length === 0
+            ? undefined
+            : () => (
+                <Button
+                  title={'Dodaj zlecenie'}
+                  greedy={false}
+                  onPress={() => {
+                    navigation.navigate('CreateOrder');
+                  }}
+                  icon={<PlusIcon color={Colors.Text} />}
+                />
+              )
+        }
         keyExtractor={item => item.id}
-        renderItem={({item}) => <View />}
+        renderItem={({item}) => (
+          <OrderItem
+            order={item}
+            onLongPress={() => {
+              navigation.navigate('EditOrder', {orderId: item.id});
+            }}
+          />
+        )}
       />
     </SafeAreaView>
   );

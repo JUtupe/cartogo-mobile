@@ -1,6 +1,11 @@
-import {AuthResponse, RentalResponse, VehicleResponse} from './responses';
+import {
+  AuthResponse,
+  OrderResponse,
+  RentalResponse,
+  VehicleResponse,
+} from './responses';
 import {axiosInstance} from './axiosInstance';
-import {RentalRequest, VehicleRequest} from './requests';
+import {OrderRequest, RentalRequest, VehicleRequest} from './requests';
 import {FormImage} from '../util/FormImage';
 
 export const createRental = async (
@@ -89,6 +94,43 @@ export const createVehicle = async (
 
 export const getVehicles = async (): Promise<VehicleResponse[]> => {
   const response = await axiosInstance.get<VehicleResponse[]>('/v1/vehicles');
+
+  return Promise.resolve(response.data);
+};
+
+export const getOrders = async (): Promise<OrderResponse[]> => {
+  const response = await axiosInstance.get<OrderResponse[]>('/v1/orders');
+
+  return Promise.resolve(response.data);
+};
+
+export const createOrder = async (
+  request: OrderRequest,
+): Promise<OrderResponse> => {
+  const response = await axiosInstance.post<OrderResponse>(
+    '/v1/orders',
+    request,
+  );
+
+  return Promise.resolve(response.data);
+};
+
+export const editOrder = async (
+  orderId: string,
+  request: OrderRequest,
+): Promise<OrderResponse> => {
+  const response = await axiosInstance.put<OrderResponse>(
+    `/v1/orders/${orderId}`,
+    request,
+  );
+
+  return Promise.resolve(response.data);
+};
+
+export const deleteOrder = async (orderId: string): Promise<OrderResponse> => {
+  const response = await axiosInstance.delete<OrderResponse>(
+    `/v1/orders/${orderId}`,
+  );
 
   return Promise.resolve(response.data);
 };

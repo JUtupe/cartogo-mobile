@@ -7,21 +7,21 @@ import React from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {ControlledRadioButton} from '../atoms/ControlledRadioButton';
 import {DateInput} from '../atoms/DateInput';
+import {SelectInput, SelectItem} from '../atoms/SelectInput';
+import {useRental} from '../../context/Rental.hooks';
 
 export interface OrderFormData {
   number: string;
   amount: number;
   paymentMethod: 'CASH' | 'CARD' | 'TRANSFER';
+  vehicleId: SelectItem;
   deliveryDate: Date;
   receptionDate: Date;
   customer: {
     firstName: string;
     lastName: string;
-    address: {
-      postalCode: string;
-      street: string;
-      city: string;
-    };
+    email: string;
+    phoneNumber: string;
   };
 }
 
@@ -34,6 +34,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   onSubmit,
   defaultValues,
 }) => {
+  const {vehicles} = useRental();
   const {control, watch, handleSubmit, setValue} = useForm<OrderFormData>({
     defaultValues: defaultValues,
   });
@@ -51,9 +52,31 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         label={'Nr. zlecenia'}
       />
 
+      <Controller
+        control={control}
+        rules={{required: Validations.required}}
+        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
+          <SelectInput
+            setItem={onChange}
+            value={value}
+            items={vehicles.map(v => ({
+              id: v.id,
+              label: `${v.name} - ${v.registrationNumber}`,
+            }))}
+            error={error?.message}
+            label={'Pojazd'}
+            pickerLabel={'Wybierz pojazd'}
+            emptyLabel={'Brak pojazdów'}
+          />
+        )}
+        name={'vehicleId'}
+      />
+
       <ControlledInput
         name={'amount'}
         control={control}
+        mapValue={value => value?.toString()}
+        keyboardType={'numeric'}
         rules={{required: Validations.required}}
         label={'Kwota zlecenia (zł)'}
       />
@@ -137,30 +160,19 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         />
       </View>
 
-      <View style={{gap: 16, flexDirection: 'row'}}>
-        <ControlledInput
-          name={'customer.address.postalCode'}
-          control={control}
-          placeholder={'00-000'}
-          rules={{
-            pattern: Validations.postalCode,
-            required: Validations.required,
-          }}
-          label={'Kod pocztowy'}
-        />
-        <ControlledInput
-          name={'customer.address.city'}
-          control={control}
-          rules={{required: Validations.required}}
-          label={'Miejscowość'}
-        />
-        <ControlledInput
-          name={'customer.address.street'}
-          control={control}
-          rules={{required: Validations.required}}
-          label={'Ulica'}
-        />
-      </View>
+      <ControlledInput
+        name={'customer.email'}
+        control={control}
+        rules={{required: Validations.required, pattern: Validations.email}}
+        label={'Email'}
+      />
+
+      <ControlledInput
+        name={'customer.phoneNumber'}
+        control={control}
+        rules={{required: Validations.required}}
+        label={'Nr. tel'}
+      />
 
       <View style={{width: '100%', gap: 16, alignItems: 'flex-end'}}>
         <Button
