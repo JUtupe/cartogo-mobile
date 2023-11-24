@@ -14,8 +14,8 @@ import {
 } from '../api/axiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KEY_RENTAL} from './Rental.context';
-import {setSignature} from '../api/user.api';
-import {deleteInvitation} from '../api/rental.api';
+import {UserApi} from '../api/user.api';
+import {RentalApi} from '../api/rental.api';
 
 interface AuthContextProps {
   user: UserResponse | null;
@@ -114,7 +114,7 @@ export const AuthProvider = ({children}: Props) => {
       return Promise.reject('No user');
     }
 
-    setSignature({
+    UserApi.setSignature({
       uri: signaturePath,
       type: 'image/png',
       name: 'signature.png',
@@ -126,7 +126,7 @@ export const AuthProvider = ({children}: Props) => {
       return Promise.reject('No user');
     }
 
-    await deleteInvitation(invitationId);
+    await RentalApi.deleteInvitation(invitationId);
 
     setPendingRentalInvitation(null);
 

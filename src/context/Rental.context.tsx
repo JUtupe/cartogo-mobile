@@ -1,20 +1,8 @@
 import {OrderResponse, RentalResponse, VehicleResponse} from '../api/responses';
 import React, {createContext, useEffect, useState} from 'react';
-import {
-  createRental as apiCreateRental,
-  editRental as apiEditRental,
-  getOrders as apiGetOrders,
-  createOrder as apiCreateOrder,
-  createVehicle as apiCreateVehicle,
-  editVehicle as apiEditVehicle,
-  editOrder as apiEditOrder,
-  getVehicles as apiGetVehicles,
-  deleteVehicle as apiDeleteVehicle,
-  deleteOrder as apiDeleteOrder,
-  createInvitation as apiCreateInvitation,
-  deleteInvitation as apiDeleteInvitation,
-  deleteEmployee as apiDeleteEmployee,
-} from '../api/rental.api';
+import {RentalApi} from '../api/rental.api';
+import {VehicleApi} from '../api/vehicle.api';
+import {OrderApi} from '../api/order.api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {OrderRequest, RentalRequest, VehicleRequest} from '../api/requests';
 import {FormImage} from '../util/FormImage';
@@ -97,7 +85,7 @@ export const RentalProvider = ({children}: Props) => {
 
   const fetchVehicles = async () => {
     try {
-      const vehicles = await apiGetVehicles();
+      const vehicles = await VehicleApi.getVehicles();
 
       setVehicles(vehicles);
 
@@ -109,7 +97,7 @@ export const RentalProvider = ({children}: Props) => {
 
   const fetchOrders = async () => {
     try {
-      const orders = await apiGetOrders();
+      const orders = await OrderApi.getOrders();
 
       setOrders(orders);
 
@@ -121,7 +109,7 @@ export const RentalProvider = ({children}: Props) => {
 
   const createRental = async (rental: RentalRequest) => {
     try {
-      const savedRental = await apiCreateRental(rental);
+      const savedRental = await RentalApi.createRental(rental);
 
       initRental(savedRental);
 
@@ -133,7 +121,7 @@ export const RentalProvider = ({children}: Props) => {
 
   const editRental = async (rental: RentalRequest) => {
     try {
-      const savedRental = await apiEditRental(rental);
+      const savedRental = await RentalApi.editRental(rental);
 
       initRental(savedRental);
 
@@ -149,7 +137,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      const savedVehicle = await apiCreateVehicle(vehicle, image);
+      const savedVehicle = await VehicleApi.createVehicle(vehicle, image);
 
       setVehicles([...vehicles, savedVehicle]);
 
@@ -166,7 +154,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      const savedOrder = await apiCreateOrder(order);
+      const savedOrder = await OrderApi.createOrder(order);
 
       setOrders([...orders, savedOrder]);
 
@@ -187,7 +175,11 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      const savedVehicle = await apiEditVehicle(vehicleId, vehicle, image);
+      const savedVehicle = await VehicleApi.editVehicle(
+        vehicleId,
+        vehicle,
+        image,
+      );
 
       setVehicles([...vehicles.filter(v => v.id !== vehicleId), savedVehicle]);
 
@@ -204,7 +196,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      const savedOrder = await apiEditOrder(orderId, order);
+      const savedOrder = await OrderApi.editOrder(orderId, order);
 
       setOrders([...orders.filter(o => o.id !== orderId), savedOrder]);
 
@@ -221,7 +213,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      await apiDeleteOrder(orderId);
+      await OrderApi.deleteOrder(orderId);
 
       setOrders(orders.filter(o => o.id !== orderId));
 
@@ -234,7 +226,7 @@ export const RentalProvider = ({children}: Props) => {
 
   const deleteVehicle = async (vehicleId: string) => {
     try {
-      await apiDeleteVehicle(vehicleId);
+      await VehicleApi.deleteVehicle(vehicleId);
 
       setVehicles(vehicles.filter(v => v.id !== vehicleId));
 
@@ -250,7 +242,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      const savedRental = await apiCreateInvitation(email);
+      const savedRental = await RentalApi.createInvitation(email);
 
       setRental(savedRental);
 
@@ -266,7 +258,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      await apiDeleteEmployee(employeeId);
+      await RentalApi.deleteEmployee(employeeId);
 
       //remove invitation from rental
       const updatedRental = rental;
@@ -288,7 +280,7 @@ export const RentalProvider = ({children}: Props) => {
     }
 
     try {
-      await apiDeleteInvitation(invitationId);
+      await RentalApi.deleteInvitation(invitationId);
 
       //remove invitation from rental
       const updatedRental = rental;

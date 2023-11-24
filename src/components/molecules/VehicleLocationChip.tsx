@@ -18,9 +18,6 @@ export const VehicleLocationChip: React.FC<VehicleLocationChipProps> = ({
       case 'RENTAL':
         return Colors.Primary1;
       case 'CUSTOMER':
-      case 'IN_DELIVERY':
-      case 'IN_RECEPTION':
-        return Colors.Info;
       case 'SERVICE':
         return Colors.Error0;
     }
@@ -30,9 +27,6 @@ export const VehicleLocationChip: React.FC<VehicleLocationChipProps> = ({
       case 'RENTAL':
         return Colors.Text;
       case 'CUSTOMER':
-      case 'IN_DELIVERY':
-      case 'IN_RECEPTION':
-        return Colors.White;
       case 'SERVICE':
         return Colors.White;
     }
@@ -44,10 +38,6 @@ export const VehicleLocationChip: React.FC<VehicleLocationChipProps> = ({
         return 'na stanie';
       case 'CUSTOMER':
         return 'u klienta';
-      case 'IN_DELIVERY':
-        return 'w dostawie';
-      case 'IN_RECEPTION':
-        return 'w odbiorze';
       case 'SERVICE':
         return 'serwis';
     }

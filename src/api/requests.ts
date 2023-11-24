@@ -13,6 +13,35 @@ export interface OrderRequest {
   };
 }
 
+export interface OrderDeliveryRequest {
+  address: {
+    postalCode: string;
+    street: string;
+    city: string;
+  };
+  pesel?: string;
+  nip?: string;
+  invoiceData: string;
+  drivingLicenseNumber: string;
+  idNumber: string;
+  vehicleState: OrderVehicleStateRequest;
+}
+
+export interface OrderReceptionRequest {
+  address: {
+    postalCode: string;
+    street: string;
+    city: string;
+  };
+  vehicleState: OrderVehicleStateRequest;
+}
+
+interface OrderVehicleStateRequest {
+  mileage: number;
+  fuelLevel: number;
+  condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
+}
+
 export interface RentalRequest {
   name: string;
   nip: string;
@@ -34,6 +63,7 @@ export interface VehicleRequest {
     mileage: number;
     fuelLevel: number;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
+    location: 'RENTAL' | 'CUSTOMER' | 'SERVICE';
   };
 }
 

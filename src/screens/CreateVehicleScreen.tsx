@@ -27,6 +27,7 @@ export const CreateVehicleScreen = ({navigation}: Props) => {
           condition: data.state.condition,
           mileage: parseInt(data.state.mileage, 10),
           fuelLevel: parseInt(data.state.fuelLevel, 10),
+          location: data.state.location,
         },
       },
       data.image,

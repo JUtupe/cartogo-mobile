@@ -1,18 +1,18 @@
-import {RootStackParamList} from '../navigation/screens';
+import {RootStackParamList} from '../../navigation/screens';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useAuth} from '../context/Auth.hooks';
+import {useAuth} from '../../context/Auth.hooks';
 import {StyleSheet, View} from 'react-native';
-import NotMemberIcon from '../assets/icons/not-a-member.svg';
+import NotMemberIcon from '../../assets/icons/not-a-member.svg';
 import React from 'react';
-import {Colors} from '../util/colors';
-import {CommonStyles} from '../util/styles';
-import {TextView} from '../components/atoms/TextView';
-import {Button} from '../components/atoms/Button';
-import {acceptInvitation} from '../api/rental.api';
-import LoginWave from '../assets/images/login-wave.svg';
-import DeleteIcon from '../assets/icons/delete.svg';
+import {Colors} from '../../util/colors';
+import {CommonStyles} from '../../util/styles';
+import {TextView} from '../../components/atoms/TextView';
+import {Button} from '../../components/atoms/Button';
+import LoginWave from '../../assets/images/login-wave.svg';
+import DeleteIcon from '../../assets/icons/delete.svg';
 import Toast from 'react-native-toast-message';
+import {RentalApi} from '../../api/rental.api';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NotMember'>;
 
@@ -26,7 +26,7 @@ export const NotMemberScreen = ({navigation}: Props) => {
   } = useAuth();
 
   const onAcceptInvitationClick = (invitationId: string) => {
-    acceptInvitation(invitationId).then(() => {});
+    RentalApi.acceptInvitation(invitationId).then(() => {});
 
     updateRentalState(true, true);
   };
