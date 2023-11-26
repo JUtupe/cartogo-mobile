@@ -1,21 +1,21 @@
-import {RootStackParamList} from '../navigation/screens';
+import {RootStackParamList} from '../../navigation/screens';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {CommonStyles} from '../util/styles';
+import {CommonStyles} from '../../util/styles';
 import {ScrollView, StatusBar} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {SubmitHandler} from 'react-hook-form';
-import {Colors} from '../util/colors';
-import {OrderForm, OrderFormData} from '../components/organisms/OrderForm';
+import {Colors} from '../../util/colors';
+import {OrderForm, OrderFormData} from '../../components/organisms/OrderForm';
 import dayjs from 'dayjs';
-import {useRental} from '../context/Rental.hooks';
-import {OrderRequest} from '../api/requests';
+import {useRental} from '../../context/Rental.hooks';
+import {OrderRequest} from '../../api/requests';
 import Toast from 'react-native-toast-message';
-import DeleteIcon from '../assets/icons/delete.svg';
+import DeleteIcon from '../../assets/icons/delete.svg';
 import {
   ImperativeConfirmDialog,
   ImperativeConfirmDialogRef,
-} from '../components/molecules/ConfirmDialog';
+} from '../../components/molecules/ConfirmDialog';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditOrder'>;
 

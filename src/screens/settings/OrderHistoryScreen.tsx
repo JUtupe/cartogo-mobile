@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/screens';
 import {CommonStyles} from '../../util/styles';
-import {FlatList, ScrollView, StatusBar} from 'react-native';
+import {FlatList, StatusBar} from 'react-native';
 import {Colors} from '../../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React from 'react';

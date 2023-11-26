@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {OrderRequest, RentalRequest, VehicleRequest} from '../api/requests';
 import {FormImage} from '../util/FormImage';
 
-interface RentalContextProps {
+interface RentalContextType {
   rental: RentalResponse | null;
   vehicles: VehicleResponse[];
   orders: OrderResponse[];
@@ -34,7 +34,7 @@ interface RentalContextProps {
   deleteInvitation: (invitationId: string) => Promise<void>;
 }
 
-export const RentalContext = createContext<RentalContextProps>({
+export const RentalContext = createContext<RentalContextType>({
   rental: null,
   vehicles: [],
   orders: [],

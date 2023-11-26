@@ -16,7 +16,7 @@ export interface ReceptionFormData {
   };
   vehicleState: {
     mileage: string;
-    fuelLevel: string;
+    fuelLevel: number;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
   };
 }

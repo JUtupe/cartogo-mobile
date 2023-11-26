@@ -11,6 +11,8 @@ import CallIcon from '../../assets/icons/call.svg';
 import MailIcon from '../../assets/icons/mail.svg';
 import {callAction, emailAction} from '../../util/actions';
 import {useRental} from '../../context/Rental.hooks';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../../navigation/screens';
 
 export interface OrderItemProps {
   order: OrderResponse;
@@ -24,6 +26,7 @@ export const OrderItem: React.FC<OrderItemProps> = ({
   onLongPress,
 }) => {
   const {rental} = useRental();
+  const {navigate} = useNavigation<StackNavigation>();
   const canBeDelivered = !order.delivery && !order.isDone;
   const canBeReceived = !!order.delivery && !order.isDone;
 
@@ -67,7 +70,9 @@ export const OrderItem: React.FC<OrderItemProps> = ({
                   style={{flex: 1}}
                   title={'Wydaj'}
                   onPress={() => {
-                    // todo
+                    navigate('Delivery', {
+                      orderId: order.id,
+                    });
                   }}
                   primary
                 />
@@ -77,7 +82,9 @@ export const OrderItem: React.FC<OrderItemProps> = ({
                   style={{flex: 1}}
                   title={'Odbierz'}
                   onPress={() => {
-                    // todo
+                    navigate('ReceptionForm', {
+                      orderId: order.id,
+                    });
                   }}
                   primary
                 />

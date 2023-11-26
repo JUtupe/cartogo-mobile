@@ -1,15 +1,15 @@
 import React from 'react';
-import {RootStackParamList} from '../navigation/screens';
+import {RootStackParamList} from '../../navigation/screens';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CommonStyles} from '../util/styles';
+import {CommonStyles} from '../../util/styles';
 import {ScrollView, StatusBar} from 'react-native';
-import {Colors} from '../util/colors';
+import {Colors} from '../../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useRental} from '../context/Rental.hooks';
+import {useRental} from '../../context/Rental.hooks';
 import {
   VehicleForm,
   VehicleFormData,
-} from '../components/organisms/VehicleForm';
+} from '../../components/organisms/VehicleForm';
 import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditVehicle'>;

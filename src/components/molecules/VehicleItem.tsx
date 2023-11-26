@@ -55,7 +55,7 @@ export const VehicleItem: React.FC<VehicleItemProps> = ({
               flexDirection: 'row',
             }}>
             <Button
-              title={'Wydaj'}
+              title={'Zlecenie'}
               onPress={() => {}}
               style={{flex: 1}}
               primary
