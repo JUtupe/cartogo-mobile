@@ -1,28 +1,31 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/screens';
+import {ReceptionStackParamList} from '../../../navigation/screens';
 import {SubmitHandler} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CommonStyles} from '../../../util/styles';
 import {ScrollView, StatusBar} from 'react-native';
 import {Colors} from '../../../util/colors';
 import React from 'react';
-import {ReceptionForm} from '../../../components/organisms/ReceptionForm';
-import {useRental} from '../../../context/Rental.hooks';
+import {
+  ReceptionForm,
+  ReceptionFormData,
+} from '../../../components/organisms/ReceptionForm';
+import {useReception} from '../../../context/Reception.hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ReceptionForm'>;
+type Props = NativeStackScreenProps<ReceptionStackParamList, 'ReceptionForm'>;
 
-export const ReceptionFormScreen = ({navigation, route}: Props) => {
-  const {orderId} = route.params;
-  const {orders} = useRental();
-  const order = orders.find(o => o.id === orderId);
+export const ReceptionFormScreen = ({navigation}: Props) => {
+  const {order, setReceptionForm} = useReception();
 
   if (!order) {
     navigation.goBack();
     return null;
   }
 
-  const onSubmit: SubmitHandler<any> = data => {
-    //todo
+  const onSubmit: SubmitHandler<ReceptionFormData> = data => {
+    setReceptionForm(data);
+
+    navigation.goBack();
   };
 
   return (

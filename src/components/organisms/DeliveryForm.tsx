@@ -15,7 +15,6 @@ export interface DeliveryFormData {
   invoiceData?: string;
   drivingLicenseNumber?: string;
   idNumber?: string;
-  description?: string;
   address: {
     postalCode: string;
     street: string;
@@ -121,13 +120,13 @@ export const DeliveryForm: React.FC<DeliveryFormProps> = ({
         />
       </View>
 
-      <ControlledInput
-        name={'description'}
-        control={control}
-        multiline
-        inputStyle={{height: 100}}
-        label={'Opis (opcjonalne)'}
-      />
+      {/*<ControlledInput*/}
+      {/*  name={'description'}*/}
+      {/*  control={control}*/}
+      {/*  multiline*/}
+      {/*  inputStyle={{height: 100}}*/}
+      {/*  label={'Opis (opcjonalne)'}*/}
+      {/*/>*/}
 
       <TextView variant={'bodyM'} bold>
         Adres wydania pojazdu

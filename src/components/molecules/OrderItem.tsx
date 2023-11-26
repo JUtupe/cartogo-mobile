@@ -82,7 +82,7 @@ export const OrderItem: React.FC<OrderItemProps> = ({
                   style={{flex: 1}}
                   title={'Odbierz'}
                   onPress={() => {
-                    navigate('ReceptionForm', {
+                    navigate('Reception', {
                       orderId: order.id,
                     });
                   }}

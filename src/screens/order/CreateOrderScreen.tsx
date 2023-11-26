@@ -8,9 +8,7 @@ import {SubmitHandler} from 'react-hook-form';
 import {Colors} from '../../util/colors';
 import Toast from 'react-native-toast-message';
 import {useRental} from '../../context/Rental.hooks';
-import {useAuth} from '../../context/Auth.hooks';
-import {OrderRequest, RentalRequest} from '../../api/requests';
-import {RentalForm} from '../../components/organisms/RentalForm';
+import {OrderRequest} from '../../api/requests';
 import {OrderForm, OrderFormData} from '../../components/organisms/OrderForm';
 import dayjs from 'dayjs';
 

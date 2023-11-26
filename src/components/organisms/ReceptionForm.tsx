@@ -38,17 +38,17 @@ export const ReceptionForm: React.FC<DeliveryFormProps> = ({
 
   return (
     <>
-      <TextView variant={'bodyM'} bold>
-        Podstawowe dane
-      </TextView>
+      {/*<TextView variant={'bodyM'} bold>*/}
+      {/*  Podstawowe dane*/}
+      {/*</TextView>*/}
 
-      <ControlledInput
-        name={'description'}
-        control={control}
-        multiline
-        inputStyle={{height: 100}}
-        label={'Opis (opcjonalne)'}
-      />
+      {/*<ControlledInput*/}
+      {/*  name={'description'}*/}
+      {/*  control={control}*/}
+      {/*  multiline*/}
+      {/*  inputStyle={{height: 100}}*/}
+      {/*  label={'Opis (opcjonalne)'}*/}
+      {/*/>*/}
 
       <TextView variant={'bodyM'} bold>
         Adres odbioru pojazdu
@@ -56,7 +56,7 @@ export const ReceptionForm: React.FC<DeliveryFormProps> = ({
 
       <View style={{gap: 16, flexDirection: 'row'}}>
         <ControlledInput
-          name={'customer.address.postalCode'}
+          name={'address.postalCode'}
           control={control}
           placeholder={'00-000'}
           rules={{
@@ -66,13 +66,13 @@ export const ReceptionForm: React.FC<DeliveryFormProps> = ({
           label={'Kod pocztowy'}
         />
         <ControlledInput
-          name={'customer.address.city'}
+          name={'address.city'}
           control={control}
           rules={{required: Validations.required}}
           label={'Miejscowość'}
         />
         <ControlledInput
-          name={'customer.address.street'}
+          name={'address.street'}
           control={control}
           rules={{required: Validations.required}}
           label={'Ulica'}

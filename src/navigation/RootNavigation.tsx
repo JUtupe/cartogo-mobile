@@ -20,8 +20,8 @@ import {EditVehicleScreen} from '../screens/vehicle/EditVehicleScreen';
 import {PrivacyScreen} from '../screens/auth/PrivacyScreen';
 import {CreateOrderScreen} from '../screens/order/CreateOrderScreen';
 import {EditOrderScreen} from '../screens/order/EditOrderScreen';
-import {ReceptionFormScreen} from '../screens/order/reception/ReceptionFormScreen';
 import {DeliveryNavigation} from './DeliveryNavigation';
+import {ReceptionNavigation} from './ReceptionNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -102,14 +102,10 @@ export const RootNavigation = () => {
         }}
       />
       <Stack.Screen
-        name="ReceptionForm"
-        component={ReceptionFormScreen}
+        name="Reception"
+        component={ReceptionNavigation}
         options={{
-          headerTitle: 'Odbiór pojazdu',
-          headerStyle: {
-            backgroundColor: Colors.Dark1,
-          },
-          headerTintColor: Colors.White,
+          headerShown: false,
         }}
       />
       <Stack.Screen
