@@ -41,7 +41,7 @@ export const OrdersScreen = ({navigation}: Props) => {
           </EmptyState>
         )}
         ListFooterComponent={
-          orders.length === 0
+          activeOrders.length === 0
             ? undefined
             : () => (
                 <Button

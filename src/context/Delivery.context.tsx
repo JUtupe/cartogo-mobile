@@ -29,7 +29,7 @@ export interface Props {
 }
 
 export const DeliveryProvider = ({children, orderId}: Props) => {
-  const {orders, fetchOrders} = useRental();
+  const {orders, fetchOrders, fetchVehicles} = useRental();
   const order = orders.find(o => o.id === orderId);
 
   const [deliveryForm, setDeliveryForm] = useState<DeliveryFormData>();
@@ -51,6 +51,7 @@ export const DeliveryProvider = ({children, orderId}: Props) => {
         },
       );
       await fetchOrders();
+      await fetchVehicles();
       return response;
     } catch (e) {
       console.log(e);
