@@ -1,5 +1,4 @@
 import {
-  Image,
   ScrollView,
   StatusBar,
   StyleProp,
@@ -28,6 +27,7 @@ import {
   ImperativeConfirmDialogRef,
 } from '../../components/molecules/ConfirmDialog';
 import {SignatureDialog} from '../../components/organisms/SignatureDialog';
+import {version} from './../../../package.json';
 
 type SettingsScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -35,7 +35,7 @@ type SettingsScreenProps = NativeStackScreenProps<
 >;
 
 export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
-  const {logout, isRentalOwner, setUserSignature, user} = useAuth();
+  const {logout, isRentalOwner, setUserSignature} = useAuth();
   const closeRentalDialogRef = useRef<ImperativeConfirmDialogRef>(null);
   const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false);
 
@@ -73,19 +73,6 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
             flex: 1,
             flexDirection: 'column',
           }}>
-          <View style={{flexDirection: 'row', gap: 16, alignItems: 'center'}}>
-            {user?.avatar !== null && (
-              <Image
-                source={{uri: user?.avatar}}
-                style={{width: 48, height: 48, borderRadius: 24}}
-              />
-            )}
-
-            <TextView variant={'bodyL'} bold>
-              Witaj, {user?.name}
-            </TextView>
-          </View>
-
           <SettingItem
             title={'Ustaw swój podpis'}
             icon={<SignatureIcon color={Colors.White} />}
@@ -131,6 +118,10 @@ export const SettingsScreen = ({navigation}: SettingsScreenProps) => {
               />
             </>
           )}
+
+          <TextView variant={'bodyM'} bold>
+            Werjsa aplikacji {version}
+          </TextView>
         </ScrollView>
 
         <Button onPress={logout} title={'Wyloguj'} greedy variant={'error'} />

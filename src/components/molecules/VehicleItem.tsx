@@ -48,25 +48,19 @@ export const VehicleItem: React.FC<VehicleItemProps> = ({
             </View>
           </View>
 
-          <View
-            style={{
-              display: 'flex',
-              gap: 8,
-              flexDirection: 'row',
-            }}>
-            <Button
-              title={'Zlecenie'}
-              onPress={() => {}}
-              style={{flex: 1}}
-              primary
-            />
-            <Button
-              title={'Śledź'}
-              onPress={() => {}}
-              style={{flex: 1}}
-              icon={<MapIcon color={Colors.Text} />}
-            />
-          </View>
+          {/*<View*/}
+          {/*  style={{*/}
+          {/*    display: 'flex',*/}
+          {/*    gap: 8,*/}
+          {/*    flexDirection: 'row',*/}
+          {/*  }}>*/}
+          {/*  <Button*/}
+          {/*    title={'Śledź'}*/}
+          {/*    onPress={() => {}}*/}
+          {/*    style={{flex: 1}}*/}
+          {/*    icon={<MapIcon color={Colors.Text} />}*/}
+          {/*  />*/}
+          {/*</View>*/}
         </View>
       </DropShadow>
     </TouchableOpacity>
