@@ -1,17 +1,17 @@
 import React, {StyleSheet, View} from 'react-native';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useAuth} from '../context/Auth.hooks';
-import {RootStackParamList} from '../navigation/screens';
-import LogoIcon from '../assets/icons/logo.svg';
-import LoginWave from '../assets/images/login-wave.svg';
-import LoginTire from '../assets/images/login-tire.svg';
-import {Colors} from '../util/colors';
+import {useAuth} from '../../context/Auth.hooks';
+import {RootStackParamList} from '../../navigation/screens';
+import LogoIcon from '../../assets/icons/logo.svg';
+import LoginWave from '../../assets/images/login-wave.svg';
+import LoginTire from '../../assets/images/login-tire.svg';
+import {Colors} from '../../util/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {CommonStyles} from '../util/styles';
-import {TextView} from '../components/atoms/TextView';
+import {CommonStyles} from '../../util/styles';
+import {TextView} from '../../components/atoms/TextView';
 import Toast from 'react-native-toast-message';
-import {useRental} from '../context/Rental.hooks';
+import {useRental} from '../../context/Rental.hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 

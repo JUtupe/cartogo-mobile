@@ -1,10 +1,10 @@
-import {LoginScreen} from '../screens/LoginScreeen';
+import {LoginScreen} from '../screens/auth/LoginScreeen';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAuth} from '../context/Auth.hooks';
 import {RootStackParamList, StackNavigation} from './screens';
-import {NotMemberScreen} from '../screens/NotMemberScreen';
-import {CreateRentalScreen} from '../screens/CreateRentalScreen';
+import {NotMemberScreen} from '../screens/auth/NotMemberScreen';
+import {CreateRentalScreen} from '../screens/auth/CreateRentalScreen';
 import {Colors} from '../util/colors';
 import LogoIcon from '../assets/icons/logo.svg';
 import {TouchableOpacity} from 'react-native';
@@ -15,13 +15,13 @@ import {ManageEmployeesScreen} from '../screens/settings/ManageEmployeesScreen';
 import {ManageFleetScreen} from '../screens/settings/ManageFleetScreen';
 import {OrderHistoryScreen} from '../screens/settings/OrderHistoryScreen';
 import {EditRentalScreen} from '../screens/settings/EditRentalScreen';
-import {CreateVehicleScreen} from '../screens/CreateVehicleScreen';
-import {EditVehicleScreen} from '../screens/EditVehicleScreen';
-import {PrivacyScreen} from '../screens/PrivacyScreen';
-import {CreateOrderScreen} from '../screens/CreateOrderScreen';
-import {EditOrderScreen} from '../screens/EditOrderScreen';
-import {DeliveryFormScreen} from '../screens/DeliveryFormScreen';
-import {ReceptionFormScreen} from '../screens/ReceptionFormScreen';
+import {CreateVehicleScreen} from '../screens/vehicle/CreateVehicleScreen';
+import {EditVehicleScreen} from '../screens/vehicle/EditVehicleScreen';
+import {PrivacyScreen} from '../screens/auth/PrivacyScreen';
+import {CreateOrderScreen} from '../screens/order/CreateOrderScreen';
+import {EditOrderScreen} from '../screens/order/EditOrderScreen';
+import {DeliveryNavigation} from './DeliveryNavigation';
+import {ReceptionNavigation} from './ReceptionNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -95,6 +95,20 @@ export const RootNavigation = () => {
         }}
       />
       <Stack.Screen
+        name="Delivery"
+        component={DeliveryNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Reception"
+        component={ReceptionNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="EditRental"
         component={EditRentalScreen}
         options={{
@@ -143,28 +157,6 @@ export const RootNavigation = () => {
         component={EditOrderScreen}
         options={{
           headerTitle: 'Edycja zlecenia',
-          headerStyle: {
-            backgroundColor: Colors.Dark1,
-          },
-          headerTintColor: Colors.White,
-        }}
-      />
-      <Stack.Screen
-        name="DeliveryForm"
-        component={DeliveryFormScreen}
-        options={{
-          headerTitle: 'Protokół wydania pojazdu',
-          headerStyle: {
-            backgroundColor: Colors.Dark1,
-          },
-          headerTintColor: Colors.White,
-        }}
-      />
-      <Stack.Screen
-        name="ReceptionForm"
-        component={ReceptionFormScreen}
-        options={{
-          headerTitle: 'Protokół odbioru pojazdu',
           headerStyle: {
             backgroundColor: Colors.Dark1,
           },

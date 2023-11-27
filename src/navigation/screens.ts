@@ -9,14 +9,23 @@ export type RootStackParamList = {
   EditRental: undefined;
   CreateOrder: undefined;
   EditOrder: {orderId: string};
-  DeliveryForm: undefined;
-  ReceptionForm: undefined;
+  Delivery: {orderId: string};
+  Reception: {orderId: string};
   CreateVehicle: undefined;
   EditVehicle: {vehicleId: string};
   Settings: undefined;
   ManageEmployees: undefined;
   ManageFleet: undefined;
   OrderHistory: undefined;
+};
+
+export type DeliveryStackParamList = {
+  DeliveryHub: undefined;
+  DeliveryForm: undefined;
+};
+export type ReceptionStackParamList = {
+  ReceptionHub: undefined;
+  ReceptionForm: undefined;
 };
 
 export type HomeStackParamList = {

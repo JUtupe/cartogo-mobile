@@ -29,12 +29,7 @@ export interface VehicleResponse {
   name: string;
   image?: string;
   state: {
-    location:
-      | 'RENTAL'
-      | 'CUSTOMER'
-      | 'IN_DELIVERY'
-      | 'IN_RECEPTION'
-      | 'SERVICE';
+    location: 'RENTAL' | 'CUSTOMER' | 'SERVICE';
     mileage: number;
     fuelLevel: number;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
@@ -56,6 +51,33 @@ export interface OrderResponse {
     phoneNumber: string;
   };
   vehicle: VehicleResponse;
+  delivery: {
+    operatorId: string;
+    address: {
+      postalCode: string;
+      street: string;
+      city: string;
+    };
+    pesel: string;
+    nip: string;
+    invoiceData: string;
+    drivingLicenseNumber: string;
+    idNumber: string;
+  };
+  reception: {
+    operatorId: string;
+    address: {
+      postalCode: string;
+      street: string;
+      city: string;
+    };
+    pesel: string;
+    nip: string;
+    invoiceData: string;
+    drivingLicenseNumber: string;
+    idNumber: string;
+  };
+  isDone: boolean;
 }
 
 export interface RentalInvitationResponse {

@@ -8,6 +8,7 @@ import {CommonStyles} from '../../util/styles';
 import {Button} from '../atoms/Button';
 import MapIcon from '../../assets/icons/map.svg';
 import {ConditionChip} from './ConditionChip';
+import {VehicleLocationChip} from './VehicleLocationChip';
 
 interface VehicleItemProps {
   vehicle: VehicleResponse;
@@ -36,35 +37,30 @@ export const VehicleItem: React.FC<VehicleItemProps> = ({
                   gap: 8,
                 }}>
                 <TextView variant={'bodyL'}>{vehicle.name}</TextView>
-                <TextView variant={'bodyL'} bold>
+                <TextView variant={'bodyL'} bold style={styles.badge}>
                   {vehicle.registrationNumber}
                 </TextView>
               </View>
-              <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+              <View style={{flex: 1, flexDirection: 'row-reverse', gap: 4}}>
                 <ConditionChip condition={vehicle.state.condition} />
+                <VehicleLocationChip location={vehicle.state.location} />
               </View>
             </View>
           </View>
 
-          <View
-            style={{
-              display: 'flex',
-              gap: 8,
-              flexDirection: 'row',
-            }}>
-            <Button
-              title={'Wydaj'}
-              onPress={() => {}}
-              style={{flex: 1}}
-              primary
-            />
-            <Button
-              title={'Śledź'}
-              onPress={() => {}}
-              style={{flex: 1}}
-              icon={<MapIcon color={Colors.Text} />}
-            />
-          </View>
+          {/*<View*/}
+          {/*  style={{*/}
+          {/*    display: 'flex',*/}
+          {/*    gap: 8,*/}
+          {/*    flexDirection: 'row',*/}
+          {/*  }}>*/}
+          {/*  <Button*/}
+          {/*    title={'Śledź'}*/}
+          {/*    onPress={() => {}}*/}
+          {/*    style={{flex: 1}}*/}
+          {/*    icon={<MapIcon color={Colors.Text} />}*/}
+          {/*  />*/}
+          {/*</View>*/}
         </View>
       </DropShadow>
     </TouchableOpacity>
@@ -85,5 +81,13 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 8,
+  },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    padding: 4,
+    borderRadius: 8,
+    backgroundColor: Colors.Light1,
   },
 });

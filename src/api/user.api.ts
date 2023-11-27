@@ -2,9 +2,7 @@ import {FormImage} from '../util/FormImage';
 import {axiosInstance} from './axiosInstance';
 import {UserResponse} from './responses';
 
-export const setSignature = async (
-  image?: FormImage,
-): Promise<UserResponse> => {
+const setSignature = async (image?: FormImage): Promise<UserResponse> => {
   const formData = new FormData();
 
   if (image) {
@@ -27,4 +25,8 @@ export const setSignature = async (
   });
 
   return Promise.resolve(response.data);
+};
+
+export const UserApi = {
+  setSignature,
 };

@@ -20,7 +20,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {icon}
 
       <View style={styles.texts}>
-        <TextView variant={'headingL'} bold>
+        <TextView variant={'headingL'} bold style={{textAlign: 'center'}}>
           {title}
         </TextView>
 

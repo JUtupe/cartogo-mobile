@@ -1,17 +1,17 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/screens';
-import {CommonStyles} from '../util/styles';
+import {RootStackParamList} from '../../navigation/screens';
+import {CommonStyles} from '../../util/styles';
 import {ScrollView, StatusBar} from 'react-native';
-import {Colors} from '../util/colors';
+import {Colors} from '../../util/colors';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useRental} from '../context/Rental.hooks';
+import {useRental} from '../../context/Rental.hooks';
 import Toast from 'react-native-toast-message';
 import {AxiosError} from 'axios';
 import {
   VehicleForm,
   VehicleFormData,
-} from '../components/organisms/VehicleForm';
+} from '../../components/organisms/VehicleForm';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateVehicle'>;
 
@@ -27,6 +27,7 @@ export const CreateVehicleScreen = ({navigation}: Props) => {
           condition: data.state.condition,
           mileage: parseInt(data.state.mileage, 10),
           fuelLevel: parseInt(data.state.fuelLevel, 10),
+          location: data.state.location,
         },
       },
       data.image,

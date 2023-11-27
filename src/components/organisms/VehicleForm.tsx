@@ -19,6 +19,7 @@ export interface VehicleFormData {
     mileage: string;
     fuelLevel: string;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
+    location: 'RENTAL' | 'CUSTOMER' | 'SERVICE';
   };
 }
 
@@ -145,6 +146,31 @@ export const VehicleForm: React.FC<VehicleFormProps> = ({
           name={'state.condition'}
           title={'Brudny'}
           value={'DIRTY'}
+        />
+      </View>
+
+      <TextView variant={'bodyM'} bold>
+        Lokalizacja pojazdu
+      </TextView>
+
+      <View style={{width: '100%', gap: 16, alignItems: 'flex-start'}}>
+        <ControlledRadioButton
+          control={control}
+          name={'state.location'}
+          title={'Na stanie'}
+          value={'RENTAL'}
+        />
+        <ControlledRadioButton
+          control={control}
+          name={'state.location'}
+          title={'U klienta'}
+          value={'CUSTOMER'}
+        />
+        <ControlledRadioButton
+          control={control}
+          name={'state.location'}
+          title={'W serwisie'}
+          value={'SERVICE'}
         />
       </View>
 

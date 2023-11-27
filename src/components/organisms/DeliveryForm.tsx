@@ -9,14 +9,12 @@ import {ControlledRadioButton} from '../atoms/ControlledRadioButton';
 import {ControlledSlider} from '../atoms/ControlledSlider';
 
 export interface DeliveryFormData {
-  email: string;
   identificationType: 'PESEL' | 'NIP';
   pesel?: string;
   nip?: string;
   invoiceData?: string;
   drivingLicenseNumber?: string;
   idNumber?: string;
-  description?: string;
   address: {
     postalCode: string;
     street: string;
@@ -24,7 +22,7 @@ export interface DeliveryFormData {
   };
   vehicleState: {
     mileage: string;
-    fuelLevel: string;
+    fuelLevel: number;
     condition: 'CLEAN' | 'DIRTY' | 'SLIGHTLY_DIRTY';
   };
 }
@@ -52,13 +50,6 @@ export const DeliveryForm: React.FC<DeliveryFormProps> = ({
       <TextView variant={'bodyM'} bold>
         Podstawowe dane
       </TextView>
-
-      <ControlledInput
-        name={'email'}
-        control={control}
-        rules={{pattern: Validations.email}}
-        label={'Email'}
-      />
 
       <View
         style={{
@@ -129,13 +120,13 @@ export const DeliveryForm: React.FC<DeliveryFormProps> = ({
         />
       </View>
 
-      <ControlledInput
-        name={'description'}
-        control={control}
-        multiline
-        inputStyle={{height: 100}}
-        label={'Opis (opcjonalne)'}
-      />
+      {/*<ControlledInput*/}
+      {/*  name={'description'}*/}
+      {/*  control={control}*/}
+      {/*  multiline*/}
+      {/*  inputStyle={{height: 100}}*/}
+      {/*  label={'Opis (opcjonalne)'}*/}
+      {/*/>*/}
 
       <TextView variant={'bodyM'} bold>
         Adres wydania pojazdu
@@ -143,7 +134,7 @@ export const DeliveryForm: React.FC<DeliveryFormProps> = ({
 
       <View style={{gap: 16, flexDirection: 'row'}}>
         <ControlledInput
-          name={'customer.address.postalCode'}
+          name={'address.postalCode'}
           control={control}
           placeholder={'00-000'}
           rules={{
@@ -153,13 +144,13 @@ export const DeliveryForm: React.FC<DeliveryFormProps> = ({
           label={'Kod pocztowy'}
         />
         <ControlledInput
-          name={'customer.address.city'}
+          name={'address.city'}
           control={control}
           rules={{required: Validations.required}}
           label={'Miejscowość'}
         />
         <ControlledInput
-          name={'customer.address.street'}
+          name={'address.street'}
           control={control}
           rules={{required: Validations.required}}
           label={'Ulica'}

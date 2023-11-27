@@ -16,6 +16,7 @@ type Props = NativeStackScreenProps<HomeStackParamList, 'Orders'>;
 
 export const OrdersScreen = ({navigation}: Props) => {
   const {orders} = useRental();
+  const activeOrders = orders.filter(o => !o.isDone);
 
   return (
     <SafeAreaView style={CommonStyles.cutoutContainer}>
@@ -23,7 +24,7 @@ export const OrdersScreen = ({navigation}: Props) => {
       <FlatList<OrderResponse>
         style={CommonStyles.cutoutStyle}
         contentContainerStyle={{gap: 16, display: 'flex', height: '100%'}}
-        data={orders}
+        data={activeOrders}
         ListEmptyComponent={() => (
           <EmptyState
             icon={<NotAMember width={100} height={100} />}
@@ -40,7 +41,7 @@ export const OrdersScreen = ({navigation}: Props) => {
           </EmptyState>
         )}
         ListFooterComponent={
-          orders.length === 0
+          activeOrders.length === 0
             ? undefined
             : () => (
                 <Button
