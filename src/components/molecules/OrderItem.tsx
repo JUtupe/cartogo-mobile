@@ -40,7 +40,6 @@ export const OrderItem: React.FC<OrderItemProps> = ({
               ellipsizeMode={'tail'}
               numberOfLines={1}>
               {order.customer.firstName} {order.customer.lastName}
-              asdasdasd
             </TextView>
             <TextView style={styles.badge} bold>
               {order.number}
