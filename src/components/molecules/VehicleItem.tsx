@@ -5,8 +5,6 @@ import {Colors} from '../../util/colors';
 import {TextView} from '../atoms/TextView';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CommonStyles} from '../../util/styles';
-import {Button} from '../atoms/Button';
-import MapIcon from '../../assets/icons/map.svg';
 import {ConditionChip} from './ConditionChip';
 import {VehicleLocationChip} from './VehicleLocationChip';
 
@@ -47,20 +45,6 @@ export const VehicleItem: React.FC<VehicleItemProps> = ({
               </View>
             </View>
           </View>
-
-          {/*<View*/}
-          {/*  style={{*/}
-          {/*    display: 'flex',*/}
-          {/*    gap: 8,*/}
-          {/*    flexDirection: 'row',*/}
-          {/*  }}>*/}
-          {/*  <Button*/}
-          {/*    title={'Śledź'}*/}
-          {/*    onPress={() => {}}*/}
-          {/*    style={{flex: 1}}*/}
-          {/*    icon={<MapIcon color={Colors.Text} />}*/}
-          {/*  />*/}
-          {/*</View>*/}
         </View>
       </DropShadow>
     </TouchableOpacity>
