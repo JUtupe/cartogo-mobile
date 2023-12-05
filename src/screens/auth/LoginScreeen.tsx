@@ -75,6 +75,7 @@ export const LoginScreen = ({navigation}: Props) => {
           </TextView>
           <TextView
             variant={'bodyS'}
+            testID={'privacy-button'}
             style={[{color: Colors.White, textDecorationLine: 'underline'}]}
             onPress={onPrivacyPolicyClick}>
             politykę prywatności

@@ -4,6 +4,7 @@ import {TextStyles} from '../../util/styles';
 
 export interface TextProps {
   children: React.ReactNode;
+  testID?: string;
   variant?: 'bodyS' | 'bodyM' | 'bodyL' | 'headingS' | 'headingM' | 'headingL';
   bold?: boolean;
   style?: StyleProp<TextStyle>;
@@ -14,6 +15,7 @@ export interface TextProps {
 
 export const TextView: React.FC<TextProps> = ({
   children,
+  testID,
   variant = 'bodyM',
   bold = false,
   style,
@@ -25,6 +27,7 @@ export const TextView: React.FC<TextProps> = ({
     <Text
       style={[TextStyles[variant], bold && {fontWeight: 'bold'}, style]}
       onPress={onPress}
+      testID={testID}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}>
       {children}
